@@ -1,14 +1,14 @@
 package com.driverskr.weatherhub
 
-import android.app.Application
 import com.baidu.location.LocationClient
+import com.driverskr.lib.BaseApplication
 
 /**
  * @Author: driverSkr
  * @Time: 2023/11/24 17:47
  * @Description: $
  */
-class MyApplication: Application() {
+class MyApplication: BaseApplication() {
 
     override fun onCreate() {
         super.onCreate()

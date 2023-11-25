@@ -1,0 +1,35 @@
+package com.driverskr.weatherhub.utils
+
+import androidx.preference.PreferenceManager
+import com.driverskr.lib.BaseApplication.Companion.context
+
+/**
+ * @Author: driverSkr
+ * @Time: 2023/11/20 15:18
+ * @Description: $
+ */
+object Constant {
+
+    const val BAIDU_KEY = "CZkxHqminzGKQuvTNpnuqX9oYfjV57B0"
+
+    const val HEFENG_KEY = "809025b8d5864149af26f51637d89049"
+
+    //应用设置里的文字
+    //    public static String SYS_LANG = "zh";
+    @JvmField
+    var APP_SETTING_UNIT = PreferenceManager.getDefaultSharedPreferences(context).getString("unit","she")
+
+    @JvmField
+    @Volatile
+    var CITY_CHANGE = false
+
+    @JvmField
+    var visibleHeight = 0
+
+    @JvmField
+    var screenHeight = 0
+
+    const val BASE_URL = "https://fengyun.icu/"
+
+    const val TC_APP_ID = "101991873"
+}
