@@ -1,0 +1,60 @@
+package com.driverskr.lib.logdb
+
+import android.content.Context
+import androidx.room.Database
+import androidx.room.Room
+import androidx.room.RoomDatabase
+import androidx.sqlite.db.SupportSQLiteDatabase
+import com.driverskr.lib.extension.logE
+import com.driverskr.lib.logdb.dao.LogDao
+import com.driverskr.lib.logdb.entity.LogEntity
+
+/**
+ * auto migrate
+ * https://mp.weixin.qq.com/s/SMw22_jUphQ8ee49ck3cmg
+ */
+@Database(
+    entities = [LogEntity::class],
+    version = 1,
+    exportSchema = false
+)
+internal abstract class LogDatabase : RoomDatabase() {
+
+    abstract fun logDao(): LogDao
+
+    companion object {
+        private const val DATABASE_NAME = "fy-weather-log.db"
+
+        @Volatile
+        private var instance: LogDatabase? = null
+
+        fun getInstance(context: Context): LogDatabase {
+            return instance ?: synchronized(this) {
+                instance
+                    ?: buildDatabase(
+                        context
+                    )
+                        .also { instance = it }
+            }
+        }
+
+        private fun buildDatabase(context: Context): LogDatabase {
+            return Room.databaseBuilder(
+                context, LogDatabase::class.java,
+                DATABASE_NAME
+            )
+                .allowMainThreadQueries()
+                .addCallback(object : RoomDatabase.Callback() {
+                    override fun onCreate(db: SupportSQLiteDatabase) {
+                        super.onCreate(db)
+                        logE("LogDatabase","db：onCreate")
+                    }
+
+                    override fun onOpen(db: SupportSQLiteDatabase) {
+                        super.onOpen(db)
+                    }
+                })
+                .build()
+        }
+    }
+}

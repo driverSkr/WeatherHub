@@ -34,4 +34,8 @@ class PermissionUtils(private val activity: AppCompatActivity) {
             ContextCompat.checkSelfPermission(activity, it) == PackageManager.PERMISSION_GRANTED
         }
     }
+
+    fun hasPermission(permission: String): Boolean {
+        return ContextCompat.checkSelfPermission(activity, permission) == PackageManager.PERMISSION_GRANTED
+    }
 }

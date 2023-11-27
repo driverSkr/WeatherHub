@@ -1,8 +1,9 @@
 package com.driverskr.weatherhub.utils;
 
+import static com.driverskr.lib.extension.LogKt.logE;
+
 import android.os.Build;
 import android.text.TextUtils;
-import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -112,7 +113,7 @@ public class RomUtil {
             line = input.readLine();
             input.close();
         } catch (IOException ex) {
-            Log.e(TAG, "Unable to read prop " + name, ex);
+            logE(TAG, "Unable to read prop " + name, ex);
             return null;
         } finally {
             if (input != null) {

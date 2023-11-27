@@ -1,6 +1,7 @@
 package com.driverskr.weatherhub.logic
 
-import android.util.Log
+import com.driverskr.lib.extension.logD
+import com.driverskr.weatherhub.bean.UserInfoBean
 import com.driverskr.weatherhub.logic.network.WeatherHubNetwork
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -16,18 +17,30 @@ class NetworkRepository {
 
     suspend fun searchCity(location: String, mode: String) = withContext(Dispatchers.IO) {
         val response = weatherHubNetwork.fetchSearchCity(location, mode)
-        Log.d(TAG,"WeatherRepository-searchCity : $response")
+        logD(TAG,"WeatherRepository-searchCity : $response")
         response
     }
 
     suspend fun nowWeather(location: String) = withContext(Dispatchers.IO) {
         val response = weatherHubNetwork.fetchNowWeather(location)
-        Log.d(TAG,"WeatherRepository-nowWeather : $response")
+        logD(TAG,"WeatherRepository-nowWeather : $response")
+        response
+    }
+
+    suspend fun checkVersion() = withContext(Dispatchers.IO) {
+        val response = weatherHubNetwork.fetchCheckVersion()
+        logD(TAG,"WeatherRepository-checkVersion : $response")
+        response
+    }
+
+    suspend fun register(userInfo: UserInfoBean) = withContext(Dispatchers.IO) {
+        val response = weatherHubNetwork.fetchRegister(userInfo)
+        logD(TAG,"WeatherRepository-register : $response")
         response
     }
 
     companion object {
-        private val TAG = NetworkRepository::class.simpleName
+        private const val TAG = "NetworkRepository"
         @Volatile
         private var instance: NetworkRepository? = null
 

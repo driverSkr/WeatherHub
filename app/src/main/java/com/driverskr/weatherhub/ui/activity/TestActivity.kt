@@ -2,10 +2,10 @@ package com.driverskr.weatherhub.ui.activity
 
 import android.Manifest
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.baidu.location.BDLocation
+import com.driverskr.lib.extension.logD
 import com.driverskr.weatherhub.databinding.ActivityTestBinding
 import com.driverskr.weatherhub.location.LocationCallback
 import com.driverskr.weatherhub.location.WeatherHubLocation
@@ -31,13 +31,13 @@ class TestActivity : AppCompatActivity(), LocationCallback {
         viewModel.searchResult.observe(this) {
             var i = 1
             for (location in it) {
-                Log.d(TAG,"所有城市结果$i：$location")
+                logD(TAG,"所有城市结果$i：$location")
                 i++
             }
             viewModel.nowWeather(it[0].id)
         }
         viewModel.nowWeather.observe(this) {
-            Log.d(TAG,"实时天气：$it")
+            logD(TAG,"实时天气：$it")
         }
 
         weatherHubLocation = WeatherHubLocation.getInstance(this)
@@ -63,6 +63,6 @@ class TestActivity : AppCompatActivity(), LocationCallback {
     }
 
     companion object {
-        private val TAG = TestActivity::class.simpleName
+        private const val TAG = "TestActivity"
     }
 }

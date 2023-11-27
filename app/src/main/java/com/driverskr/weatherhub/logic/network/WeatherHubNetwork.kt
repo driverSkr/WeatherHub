@@ -1,5 +1,6 @@
 package com.driverskr.weatherhub.logic.network
 
+import com.driverskr.weatherhub.bean.UserInfoBean
 import com.driverskr.weatherhub.logic.network.api.LocationService
 import com.driverskr.weatherhub.logic.network.api.WeatherService
 
@@ -12,10 +13,16 @@ class WeatherHubNetwork {
 
     private val weatherService = ServiceCreator.createService(WeatherService::class.java,ApiType.WEATHER)
     private val locationService = ServiceCreator.createService(LocationService::class.java,ApiType.SEARCH)
+    private val fengYunService = ServiceCreator.createService(LocationService::class.java,ApiType.FENGYUN)
 
     suspend fun fetchSearchCity(location: String,mode: String) = locationService.searchCity(location, mode)
 
     suspend fun fetchNowWeather(location: String) = weatherService.nowWeather(location)
+
+    suspend fun fetchCheckVersion() = locationService.checkVersion()
+
+    suspend fun fetchRegister(userInfo: UserInfoBean) = fengYunService.register(userInfo)
+
 
     companion object {
 

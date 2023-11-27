@@ -1,11 +1,11 @@
 package com.driverskr.weatherhub.logic.db
 
 import android.content.Context
-import android.util.Log
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.driverskr.lib.extension.logE
 import com.driverskr.weatherhub.logic.db.dao.CacheDao
 import com.driverskr.weatherhub.logic.db.dao.CityDao
 import com.driverskr.weatherhub.logic.db.entity.CacheEntity
@@ -41,7 +41,7 @@ internal abstract class AppDatabase: RoomDatabase() {
                 .addCallback(object : RoomDatabase.Callback() {
                     override fun onCreate(db: SupportSQLiteDatabase) {
                         super.onCreate(db)
-                        Log.e("driverSkr","db：onCreate")
+                        logE("driverSkr","db：onCreate")
                     }
                     override fun onOpen(db: SupportSQLiteDatabase) {
                         super.onOpen(db)

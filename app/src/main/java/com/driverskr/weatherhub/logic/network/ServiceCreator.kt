@@ -1,6 +1,6 @@
 package com.driverskr.weatherhub.logic.network
 
-import android.util.Log
+import com.driverskr.lib.extension.logD
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -13,7 +13,7 @@ object ServiceCreator {
 
     private fun <T> create(serviceClass: Class<T>, apiType: ApiType): T {
         val baseUrl = getBaseUrl(apiType)
-        Log.d("driverSkr", "ServiceCreator : $baseUrl")
+        logD("driverSkr", "ServiceCreator : $baseUrl")
         return Retrofit.Builder()
             .baseUrl(baseUrl)
             .addConverterFactory(GsonConverterFactory.create())
@@ -29,6 +29,7 @@ object ServiceCreator {
             ApiType.SEARCH -> "https://geoapi.qweather.com"  //和风天气搜索城市
             ApiType.WEATHER -> "https://devapi.qweather.com" //和风天气API
             ApiType.BING -> "https://cn.bing.com"    //必应壁纸
+            ApiType.FENGYUN -> "https://fengyun.icu"    //版本
         }
     }
 }

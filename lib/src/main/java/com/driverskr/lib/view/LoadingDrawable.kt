@@ -7,6 +7,7 @@ import android.graphics.Rect
 import android.graphics.drawable.Animatable
 import android.graphics.drawable.Drawable
 import android.util.Log
+import com.driverskr.lib.extension.logD
 import kotlinx.coroutines.*
 
 /**
@@ -125,7 +126,7 @@ class LoadingDrawable(private val sun: Drawable, private val cloud: Drawable): D
      * 开始动画
      */
     override fun start() {
-        Log.d(TAG,"start() ------------------->")
+        logD(TAG,"start() ------------------->")
         startAnim()
     }
 
@@ -135,7 +136,7 @@ class LoadingDrawable(private val sun: Drawable, private val cloud: Drawable): D
     override fun stop() {
         scope?.cancel()
         scope = null
-        Log.d(TAG,"ICancelable cancel --------------------------->")
+        logD(TAG,"ICancelable cancel --------------------------->")
     }
 
     /**
@@ -152,6 +153,6 @@ class LoadingDrawable(private val sun: Drawable, private val cloud: Drawable): D
     }
 
     companion object {
-        private val TAG = LoadingDrawable::class.simpleName
+        private const val TAG = "LoadingDrawable"
     }
 }

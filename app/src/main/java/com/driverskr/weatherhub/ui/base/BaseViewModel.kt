@@ -1,11 +1,12 @@
 package com.driverskr.weatherhub.ui.base
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.driverskr.lib.BuildConfig
+import com.driverskr.lib.extension.logD
+import com.driverskr.lib.extension.logE
 import com.driverskr.weatherhub.bean.LoadState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -55,7 +56,7 @@ open class BaseViewModel(app: Application): AndroidViewModel(app) {
      * @param loadingType 0: 默认 1: silent
      */
     private fun launchRequest(loadingType: Int = 0, block: suspend CoroutineScope.() -> Unit) {
-        viewModelScope.launch() {
+        viewModelScope.launch {
             try {
                 if (loadingType == 0) {
                     runningCount.getAndIncrement()
@@ -67,7 +68,7 @@ open class BaseViewModel(app: Application): AndroidViewModel(app) {
             } catch (e: Throwable) {
                 e.printStackTrace()
                 if (BuildConfig.DEBUG) {
-                    Log.e("BaseViewModel","$loadingType -> 异常：$e")
+                    logE("BaseViewModel","$loadingType -> 异常：$e")
                     e.printStackTrace()
                 }
                 if (loadingType == 0) {
@@ -75,7 +76,7 @@ open class BaseViewModel(app: Application): AndroidViewModel(app) {
                     if (runningCount.get() > 0) {
                         runningCount.set(0)
                     }
-                    Log.d("BaseViewModel","runningCount - : $runningCount")
+                    logD("BaseViewModel","runningCount - : $runningCount")
                     loadState.value = LoadState.Finish
                 }
             } finally {

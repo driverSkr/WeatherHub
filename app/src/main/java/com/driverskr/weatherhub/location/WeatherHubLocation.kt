@@ -7,6 +7,7 @@ import com.baidu.location.BDAbstractLocationListener
 import com.baidu.location.BDLocation
 import com.baidu.location.LocationClient
 import com.baidu.location.LocationClientOption
+import com.driverskr.lib.extension.logE
 import java.lang.Exception
 
 /**
@@ -80,12 +81,12 @@ class WeatherHubLocation private constructor(context: Context) {
      */
     inner class WeatherHubLocationListener: BDAbstractLocationListener() {
 
-        private val tag = WeatherHubLocationListener::class.simpleName
+        private val tag = "WeatherHubLocationListener"
 
         override fun onReceiveLocation(bdLocation: BDLocation?) {
             bdLocation?.let {
                 if (it.direction.isNaN()) {
-                    Log.e(tag, "onReceiveLocation: 未获取区/县数据，您可以重新断开连接网络再尝试定位。")
+                    logE(tag, "onReceiveLocation: 未获取区/县数据，您可以重新断开连接网络再尝试定位。")
                     requestLocation()
                 }
                 stopLocation()
