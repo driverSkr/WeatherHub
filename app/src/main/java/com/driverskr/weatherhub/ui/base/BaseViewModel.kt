@@ -56,17 +56,25 @@ open class BaseViewModel(app: Application): AndroidViewModel(app) {
      * @param loadingType 0: 默认 1: silent
      */
     private fun launchRequest(loadingType: Int = 0, block: suspend CoroutineScope.() -> Unit) {
+        //viewModelScope 是一个与 ViewModel 生命周期相关联的协程作用域，它确保在 ViewModel 被清理时取消所有相关的协程
         viewModelScope.launch {
             try {
                 if (loadingType == 0) {
                     runningCount.getAndIncrement()
                     loadState.value = LoadState.Start()
                 }
+                /**切换到 IO 线程执行传入的 block 挂起函数**/
                 withContext(Dispatchers.IO) {
+                    /**
+                     * block.invoke(this) 和 block()等价
+                     * 使用 invoke(this) 的方式是为了提供更多的语义，特别是当函数类型的参数具有接收者类型时（即带有 suspend CoroutineScope.() -> Unit 这样的带接收者的函数类型）
+                     * 通过 invoke(this)，你明确指定了接收者为当前的 CoroutineScope，使代码更易读
+                     */
                     block.invoke(this)
                 }
             } catch (e: Throwable) {
                 e.printStackTrace()
+                //如果是在调试模式下，使用 logE 记录异常信息
                 if (BuildConfig.DEBUG) {
                     logE("BaseViewModel","$loadingType -> 异常：$e")
                     e.printStackTrace()

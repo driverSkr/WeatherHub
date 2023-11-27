@@ -2,13 +2,11 @@ package com.driverskr.weatherhub.location
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.util.Log
 import com.baidu.location.BDAbstractLocationListener
 import com.baidu.location.BDLocation
 import com.baidu.location.LocationClient
 import com.baidu.location.LocationClientOption
 import com.driverskr.lib.extension.logE
-import java.lang.Exception
 
 /**
  * @Author: driverSkr
