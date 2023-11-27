@@ -66,6 +66,8 @@ class HomeActivity: BaseVmActivity<ActivityHomeBinding, HomeViewModel>(), Locati
     //定位封装
     private lateinit var weatherHubLocation: WeatherHubLocation
 /****************************定位与权限申请分割线***********************************/
+    /**fragments 属性在第一次访问时会创建一个新的 ArrayList 实例，之后每次访问都将返回相同的实例
+     * ArrayList是MutableList的子类**/
     private val fragments: MutableList<Fragment> by lazy { ArrayList() }
     private val cityList = ArrayList<CityEntity>()
     private var mCurIndex = 0
