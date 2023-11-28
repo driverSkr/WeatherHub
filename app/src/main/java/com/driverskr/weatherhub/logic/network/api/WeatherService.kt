@@ -20,6 +20,9 @@ interface WeatherService {
     @GET("/v7/weather/now?key=$HEFENG_KEY")
     suspend fun nowWeather(@Query("location") location: String): WeatherNow
 
+    @GET("/v7/warning/now?key=$HEFENG_KEY")
+    suspend fun warning(@Query("location") location: String): WarningBean
+
     /**
      * 天气预报  (免费订阅)最多可以获得7天的数据
      * @param location 城市ID

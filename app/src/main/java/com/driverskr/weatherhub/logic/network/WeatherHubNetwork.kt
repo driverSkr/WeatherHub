@@ -23,6 +23,15 @@ class WeatherHubNetwork {
 
     suspend fun fetchRegister(userInfo: UserInfoBean) = fengYunService.register(userInfo)
 
+    suspend fun fetchWarning(location: String) = weatherService.warning(location)
+
+    suspend fun fetchDailyWeather(location: String) = weatherService.dailyWeather(location)
+
+    suspend fun fetchLifestyle(location: String) = weatherService.lifestyle(location = location)
+
+    suspend fun fetchHourlyWeather(location: String) = weatherService.hourlyWeather(location)
+
+    suspend fun fetchAirWeather(location: String) = weatherService.airWeather(location)
 
     companion object {
 

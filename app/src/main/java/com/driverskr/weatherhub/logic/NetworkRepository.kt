@@ -39,6 +39,36 @@ class NetworkRepository {
         response
     }
 
+    suspend fun warning(location: String) = withContext(Dispatchers.IO) {
+        val response = weatherHubNetwork.fetchWarning(location)
+        logD(TAG,"WeatherRepository-warning : $response")
+        response
+    }
+
+    suspend fun dailyWeather(location: String) = withContext(Dispatchers.IO) {
+        val response = weatherHubNetwork.fetchDailyWeather(location)
+        logD(TAG,"WeatherRepository-dailyWeather : $response")
+        response
+    }
+
+    suspend fun lifestyle(location: String) = withContext(Dispatchers.IO) {
+        val response = weatherHubNetwork.fetchLifestyle(location)
+        logD(TAG,"WeatherRepository-lifestyle : $response")
+        response
+    }
+
+    suspend fun hourlyWeather(location: String) = withContext(Dispatchers.IO) {
+        val response = weatherHubNetwork.fetchHourlyWeather(location)
+        logD(TAG,"WeatherRepository-hourlyWeather : $response")
+        response
+    }
+
+    suspend fun airWeather(location: String) = withContext(Dispatchers.IO) {
+        val response = weatherHubNetwork.fetchAirWeather(location)
+        logD(TAG,"WeatherRepository-airWeather : $response")
+        response
+    }
+
     companion object {
         private const val TAG = "NetworkRepository"
         @Volatile
