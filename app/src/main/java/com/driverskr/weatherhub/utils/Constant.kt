@@ -29,7 +29,5 @@ object Constant {
     @JvmField
     var screenHeight = 0
 
-    const val BASE_URL = "https://fengyun.icu/"
-
     const val TC_APP_ID = "101991873"
 }

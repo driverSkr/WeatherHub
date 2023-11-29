@@ -24,10 +24,7 @@ import coil.imageLoader
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.baidu.location.BDLocation
-import com.driverskr.lib.extension.expand
-import com.driverskr.lib.extension.logD
-import com.driverskr.lib.extension.logE
-import com.driverskr.lib.extension.toast
+import com.driverskr.lib.extension.*
 import com.driverskr.lib.utils.EffectUtil
 import com.driverskr.lib.utils.IconUtils
 import com.driverskr.lib.utils.SpUtil
@@ -174,7 +171,7 @@ class HomeActivity: BaseVmActivity<ActivityHomeBinding, HomeViewModel>(), Locati
             }
         }
         mBinding.ivAddCity.setOnClickListener {
-            //startActivity<AddCityActivity>()
+            startActivity<AddCityActivity>()
         }
         mBinding.navView.setNavigationItemSelectedListener {
             when (it.itemId) {

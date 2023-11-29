@@ -69,6 +69,7 @@ dependencies {
 
     /*依赖子模块*/
     implementation project(path: ':lib')
+    implementation project(path: ':plugin-lib')
 
     /*Retrofit2*/
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'

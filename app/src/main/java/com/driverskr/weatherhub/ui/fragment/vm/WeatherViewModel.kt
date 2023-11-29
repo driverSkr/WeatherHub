@@ -51,5 +51,39 @@ class WeatherViewModel(val app: Application) : BaseViewModel(app) {
                 }
             }
         }
+        // 实时空气
+        launch {
+            val result = NetworkRepository.getInstance().airWeather(cityId)
+            result.let {
+                airNow.postValue(it.now)
+            }
+        }
+        // 7天 天气预报
+        launch {
+            val result = NetworkRepository.getInstance().dailyWeather(cityId)
+            result.let {
+                forecast.postValue(it.daily)
+            }
+        }
+        // 逐小时天气预报
+        launch {
+            val result = NetworkRepository.getInstance().hourlyWeather(cityId)
+            result.let {
+                hourly.postValue(it.hourly)
+            }
+        }
+        // 天气生活指数(使用缓存 3h)
+        launch {
+            val lifeIndicatorCacheKey = CACHE_LIFE_INDICATOR + cityId
+            val cache = DBRepository.getInstance().getCache<LifeIndicator>(lifeIndicatorCacheKey)
+            cache?.let {
+                lifeIndicator.postValue(it)
+                return@launch
+            }
+            NetworkRepository.getInstance().lifestyle(cityId).let {
+                DBRepository.getInstance().saveCache(lifeIndicatorCacheKey, it, 3 * 60 * 60)
+                lifeIndicator.postValue(it)
+            }
+        }
     }
 }
