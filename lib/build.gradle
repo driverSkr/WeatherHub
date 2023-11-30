@@ -58,5 +58,7 @@ dependencies {
     api 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1'
     api 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.1'
 
+    api "androidx.lifecycle:lifecycle-service:2.3.1"
+
     api 'com.google.code.gson:gson:2.8.9' // 或者你可以选择最新的版本
 }

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <shortcut
+        android:shortcutId="sunlit_about"
+        android:enabled="true"
+        android:icon="@drawable/ic_launcher_foreground"
+        android:shortcutDisabledMessage="@string/app_name"
+        android:shortcutLongLabel="@string/app_name"
+        android:shortcutShortLabel="@string/app_name">
+
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetClass="com.driverskr.weatherhub.ui.activity.AboutActivity"
+            android:targetPackage="com.driverskr.weatherhub" />
+
+        <categories android:name="android.shortcut.conversation"/>
+
+    </shortcut>
+
+</shortcuts>

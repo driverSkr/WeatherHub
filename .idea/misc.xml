@@ -39,20 +39,32 @@
         <entry key="..\:/androidProject/boGeStudyDemo/WeatherHub/app/src/main/res/drawable/shape_theme_bg_selected.xml" value="0.1" />
         <entry key="..\:/androidProject/boGeStudyDemo/WeatherHub/app/src/main/res/drawable/side_nav_bar.xml" value="0.1" />
         <entry key="..\:/androidProject/boGeStudyDemo/WeatherHub/app/src/main/res/drawable/wave_blue.xml" value="0.1" />
+        <entry key="..\:/androidProject/boGeStudyDemo/WeatherHub/app/src/main/res/layout/activity_about.xml" value="0.1" />
         <entry key="..\:/androidProject/boGeStudyDemo/WeatherHub/app/src/main/res/layout/activity_add_city.xml" value="0.1" />
         <entry key="..\:/androidProject/boGeStudyDemo/WeatherHub/app/src/main/res/layout/activity_base.xml" value="0.1" />
+        <entry key="..\:/androidProject/boGeStudyDemo/WeatherHub/app/src/main/res/layout/activity_city_manager.xml" value="0.22135416666666666" />
+        <entry key="..\:/androidProject/boGeStudyDemo/WeatherHub/app/src/main/res/layout/activity_feed_back.xml" value="0.2078125" />
         <entry key="..\:/androidProject/boGeStudyDemo/WeatherHub/app/src/main/res/layout/activity_home.xml" value="0.264" />
+        <entry key="..\:/androidProject/boGeStudyDemo/WeatherHub/app/src/main/res/layout/activity_login.xml" value="0.22447916666666667" />
         <entry key="..\:/androidProject/boGeStudyDemo/WeatherHub/app/src/main/res/layout/activity_main.xml" value="0.2046875" />
+        <entry key="..\:/androidProject/boGeStudyDemo/WeatherHub/app/src/main/res/layout/activity_settings.xml" value="0.2078125" />
+        <entry key="..\:/androidProject/boGeStudyDemo/WeatherHub/app/src/main/res/layout/activity_splash.xml" value="0.22447916666666667" />
         <entry key="..\:/androidProject/boGeStudyDemo/WeatherHub/app/src/main/res/layout/activity_test.xml" value="0.225" />
+        <entry key="..\:/androidProject/boGeStudyDemo/WeatherHub/app/src/main/res/layout/activity_theme.xml" value="0.10141271442986882" />
+        <entry key="..\:/androidProject/boGeStudyDemo/WeatherHub/app/src/main/res/layout/activity_user_info.xml" value="0.2078125" />
         <entry key="..\:/androidProject/boGeStudyDemo/WeatherHub/app/src/main/res/layout/dialog_alarm.xml" value="0.1" />
         <entry key="..\:/androidProject/boGeStudyDemo/WeatherHub/app/src/main/res/layout/dialog_change_city.xml" value="0.264" />
         <entry key="..\:/androidProject/boGeStudyDemo/WeatherHub/app/src/main/res/layout/dialog_upgrade.xml" value="0.1" />
         <entry key="..\:/androidProject/boGeStudyDemo/WeatherHub/app/src/main/res/layout/fragment_weather.xml" value="0.264" />
+        <entry key="..\:/androidProject/boGeStudyDemo/WeatherHub/app/src/main/res/layout/item_city_manager.xml" value="0.264" />
         <entry key="..\:/androidProject/boGeStudyDemo/WeatherHub/app/src/main/res/layout/item_forecast.xml" value="0.2" />
         <entry key="..\:/androidProject/boGeStudyDemo/WeatherHub/app/src/main/res/layout/item_forecast15.xml" value="0.1" />
         <entry key="..\:/androidProject/boGeStudyDemo/WeatherHub/app/src/main/res/layout/item_forecast7.xml" value="0.1" />
+        <entry key="..\:/androidProject/boGeStudyDemo/WeatherHub/app/src/main/res/layout/item_searching.xml" value="0.1" />
+        <entry key="..\:/androidProject/boGeStudyDemo/WeatherHub/app/src/main/res/layout/item_top_city.xml" value="0.1" />
         <entry key="..\:/androidProject/boGeStudyDemo/WeatherHub/app/src/main/res/layout/item_warning.xml" value="0.1" />
         <entry key="..\:/androidProject/boGeStudyDemo/WeatherHub/app/src/main/res/layout/layout_air_quality.xml" value="0.1" />
+        <entry key="..\:/androidProject/boGeStudyDemo/WeatherHub/app/src/main/res/layout/layout_arrow_right.xml" value="0.10872855701311807" />
         <entry key="..\:/androidProject/boGeStudyDemo/WeatherHub/app/src/main/res/layout/layout_forecast_15d.xml" value="0.1" />
         <entry key="..\:/androidProject/boGeStudyDemo/WeatherHub/app/src/main/res/layout/layout_forecast_7d.xml" value="0.1" />
         <entry key="..\:/androidProject/boGeStudyDemo/WeatherHub/app/src/main/res/layout/layout_forecast_hourly.xml" value="0.2" />
@@ -61,9 +73,11 @@
         <entry key="..\:/androidProject/boGeStudyDemo/WeatherHub/app/src/main/res/layout/layout_support.xml" value="0.2" />
         <entry key="..\:/androidProject/boGeStudyDemo/WeatherHub/app/src/main/res/layout/layout_today_brief_info.xml" value="0.1" />
         <entry key="..\:/androidProject/boGeStudyDemo/WeatherHub/app/src/main/res/layout/nav_header_main.xml" value="0.2" />
+        <entry key="..\:/androidProject/boGeStudyDemo/WeatherHub/app/src/main/res/layout/weather_widget.xml" value="0.1" />
         <entry key="..\:/androidProject/boGeStudyDemo/WeatherHub/app/src/main/res/menu/activity_main_drawer.xml" value="0.1" />
         <entry key="..\:/androidProject/boGeStudyDemo/WeatherHub/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
         <entry key="..\:/androidProject/boGeStudyDemo/WeatherHub/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1" />
+        <entry key="..\:/androidProject/boGeStudyDemo/WeatherHub/app/src/main/res/xml/root_preferences.xml" value="0.264" />
         <entry key="..\:/androidProject/boGeStudyDemo/WeatherHub/lib/src/main/res/drawable/bg_0_n.xml" value="0.1" />
         <entry key="..\:/androidProject/boGeStudyDemo/WeatherHub/lib/src/main/res/drawable/bg_1_n.xml" value="0.179" />
         <entry key="..\:/androidProject/boGeStudyDemo/WeatherHub/lib/src/main/res/drawable/bg_2_n.xml" value="0.179" />

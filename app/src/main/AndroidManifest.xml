@@ -39,6 +39,46 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".ui.activity.SettingsActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".ui.activity.UserInfoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.FeedBackActivity"
+            android:exported="false"
+            android:launchMode="singleTask"/>
+        <activity
+            android:name=".ui.activity.ThemeActivity"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.driverskr.weatherhub.THEME_SETTING" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.activity.CityManagerActivity"
+            android:exported="false"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".ui.activity.AboutActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".ui.activity.SplashActivity"
+            android:exported="true"
+            android:theme="@style/SplashTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/shortcuts" />
+        </activity>
+        <activity
             android:name=".ui.activity.AddCityActivity"
             android:launchMode="singleTask"
             android:theme="@style/Left2Right" />
@@ -50,15 +90,7 @@
             android:exported="false" />
         <activity
             android:name=".ui.activity.HomeActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-
-
+            android:launchMode="singleTask" />
         <activity
             android:name="com.tencent.tauth.AuthActivity"
             android:exported="true"
@@ -78,10 +110,12 @@
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="behind"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
         <!-- 添加定位AK -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="CZkxHqminzGKQuvTNpnuqX9oYfjV57B0" /> <!-- 添加定位服务 -->
+            android:value="CZkxHqminzGKQuvTNpnuqX9oYfjV57B0" />
+        <!-- 添加定位服务 -->
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"

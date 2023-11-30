@@ -33,6 +33,8 @@ class WeatherHubNetwork {
 
     suspend fun fetchAirWeather(location: String) = weatherService.airWeather(location)
 
+    suspend fun fetchFeedBack(content: String) = fengYunService.feedBack(content)
+
     companion object {
 
         @Volatile   //被 @Volatile 修饰的属性可能会被多个线程同时访问，因此编译器不应该进行某些优化，以确保对这个属性的读取和写入是原子的。

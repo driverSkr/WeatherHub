@@ -176,10 +176,10 @@ class HomeActivity: BaseVmActivity<ActivityHomeBinding, HomeViewModel>(), Locati
         mBinding.navView.setNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.navCity -> {
-                    //startActivity<CityManagerActivity>()
+                    startActivity<CityManagerActivity>()
                 }
                 R.id.navTheme -> {
-                    //startActivity<ThemeActivity>()
+                    startActivity<ThemeActivity>()
                 }
                 R.id.navShe -> {
                     changeUnit(TempUnit.SHE)
@@ -190,10 +190,10 @@ class HomeActivity: BaseVmActivity<ActivityHomeBinding, HomeViewModel>(), Locati
                     mBinding.drawerLayout.closeDrawer(GravityCompat.END)
                 }
                 R.id.navFeedback -> {
-                    //startActivity<FeedBackActivity>()
+                    startActivity<FeedBackActivity>()
                 }
                 R.id.navAbout -> {
-                    //startActivity<AboutActivity>()
+                    startActivity<AboutActivity>()
                 }
             }
             true
@@ -203,7 +203,7 @@ class HomeActivity: BaseVmActivity<ActivityHomeBinding, HomeViewModel>(), Locati
             if (SpUtil.getInstance(this).account.isEmpty()) {
                 launcher.launch(Intent(this, LoginActivity::class.java))
             } else {
-                //launcher.launch(Intent(this, UserInfoActivity::class.java))
+                launcher.launch(Intent(this, UserInfoActivity::class.java))
             }
         }
 
@@ -218,7 +218,7 @@ class HomeActivity: BaseVmActivity<ActivityHomeBinding, HomeViewModel>(), Locati
         /**监听数据库城市数据**/
         viewModel.mCities.observe(this) {
             if (it.isEmpty()) {
-                //startActivity<AddCityActivity>()
+                startActivity<AddCityActivity>()
             } else {
                 cityList.clear()
                 cityList.addAll(it)

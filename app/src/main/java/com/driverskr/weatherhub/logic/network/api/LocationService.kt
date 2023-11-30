@@ -25,4 +25,7 @@ interface LocationService {
 
     @POST("/api/register")
     suspend fun register(userInfo: UserInfoBean): String
+
+    @POST("/api/feedback")
+    suspend fun feedBack(@Query("content") content: String): String
 }

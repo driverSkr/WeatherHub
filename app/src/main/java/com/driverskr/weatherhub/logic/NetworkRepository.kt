@@ -69,6 +69,12 @@ class NetworkRepository {
         response
     }
 
+    suspend fun feedBack(content: String) = withContext(Dispatchers.IO) {
+        val response = weatherHubNetwork.fetchFeedBack(content)
+        logD(TAG,"WeatherRepository-feedBack : $response")
+        response
+    }
+
     companion object {
         private const val TAG = "NetworkRepository"
         @Volatile

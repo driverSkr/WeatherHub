@@ -62,6 +62,9 @@ dependencies {
 
     implementation files('libs/open_sdk_3.5.11.6_r13b47b7_lite.jar')
 
+    implementation 'com.google.dagger:hilt-android:2.36'
+    kapt 'com.google.dagger:hilt-compiler:2.36'
+
     /*room*/
     implementation "androidx.room:room-runtime:2.3.0"
     implementation "androidx.room:room-ktx:2.3.0"
