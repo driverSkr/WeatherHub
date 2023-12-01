@@ -3,6 +3,7 @@ package com.driverskr.weatherhub.ui.activity
 import android.annotation.SuppressLint
 import android.content.Intent
 import com.driverskr.lib.extension.toast
+import com.driverskr.lib.extension.toast1
 import com.driverskr.lib.utils.SpUtil
 import com.driverskr.plugin_lib.SkinManager
 import com.driverskr.weatherhub.R

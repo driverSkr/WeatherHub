@@ -3,7 +3,9 @@ package com.driverskr.lib.extension
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.view.Gravity
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.driverskr.lib.databinding.CustomToastBinding
@@ -14,6 +16,10 @@ import com.google.gson.Gson
  * @Time: 2023/11/27 13:36
  * @Description: $
  */
+fun Context.toast1(content: String) {
+    showToast1(this, content)
+}
+
 fun Context.toast(content: String) {
     showToast(this, content)
 }
@@ -35,6 +41,20 @@ fun Fragment.toastCenter(content: String) {
 
 private fun showToast(context: Context, content: String) {
     Toast.makeText(context, content, Toast.LENGTH_LONG).show()
+}
+
+private fun showToast1(context: Context, content: String) {
+    val toast = Toast.makeText(context,"", Toast.LENGTH_LONG)
+    val toastMessage = toast.view?.findViewById<TextView>(android.R.id.message)
+    toastMessage?.apply {
+        text = content
+        setTextColor(Color.BLACK)
+    }
+    toast?.apply {
+        setGravity(Gravity.CENTER, 0, 0)
+        duration = Toast.LENGTH_LONG
+        show()
+    }
 }
 
 /**

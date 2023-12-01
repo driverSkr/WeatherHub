@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="250dp"
+    android:layout_height="250dp"
+    android:padding="12dp"
+    android:orientation="vertical"
+    android:background="@drawable/shape_white_5">
+
+    <ImageView
+        android:id="@+id/iv_content"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:src="@drawable/ic_indicator_sport"/>
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:text="运动"/>
+
+    <!--种类-->
+    <TextView
+        android:id="@+id/tv_kind"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/blue"
+        android:text="较适宜"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:textStyle="bold"/>
+
+    <!--文本-->
+    <TextView
+        android:id="@+id/tv_text"
+        android:textColor="@color/black"
+        android:text="天气较好，但因风力稍强，户外可选择对风力要求不高的运动，推荐您进行室内运动。"
+        android:layout_marginTop="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>

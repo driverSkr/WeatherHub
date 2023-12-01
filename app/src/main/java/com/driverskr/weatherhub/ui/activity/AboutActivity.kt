@@ -6,6 +6,7 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.driverskr.lib.extension.toast
+import com.driverskr.lib.extension.toast1
 import com.driverskr.lib.utils.CommonUtil
 import com.driverskr.weatherhub.R
 import com.driverskr.weatherhub.databinding.ActivityAboutBinding
@@ -35,7 +36,7 @@ class AboutActivity: BaseActivity<ActivityAboutBinding>() {
      */
     override fun initEvent() {
         mBinding.rlDisclaimer.setOnClickListener {
-            toast("本应用仅用于交流学习，天气数据来源于和风天气(https://dev.qweather.com/)，数据准确性仅供参考，本App不承担任何法律责任")
+            toast1("本应用仅用于交流学习，天气数据来源于和风天气(https://dev.qweather.com/)，数据准确性仅供参考，本App不承担任何法律责任")
         }
         mBinding.tvWebSit.apply {
             setOnClickListener {

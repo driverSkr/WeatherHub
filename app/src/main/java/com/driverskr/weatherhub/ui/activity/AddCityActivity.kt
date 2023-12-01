@@ -5,11 +5,13 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.location.LocationManager
+import android.os.Bundle
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.GridLayoutManager
 import com.baidu.location.BDLocation
@@ -46,6 +48,15 @@ class AddCityActivity: BaseVmActivity<ActivityAddCityBinding, SearchViewModel>()
     private var fromSplash = false
 
     private var requestedGPS = false
+
+    private val locationPermissionLauncher = PermissionUtils(this).requestPermissionsNotLaunch { isGranted ->
+        if (isGranted) {
+            // 用户同意了定位权限，执行相关操作
+            checkGetLocation()
+        } else {
+            // 用户拒绝了权限，可以提示或执行其他操作
+        }
+    }
 
     override fun bindView() = ActivityAddCityBinding.inflate(layoutInflater)
 
@@ -230,13 +241,8 @@ class AddCityActivity: BaseVmActivity<ActivityAddCityBinding, SearchViewModel>()
                 .setTitle("权限申请")
                 .setCancelable(false)
                 .setPositiveButton("确定") { _, _ ->
-                    PermissionUtils(this).requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION)) { granted ->
-                        if (granted) {
-                            checkGetLocation()
-                        } else {
-                            //跳转到当前应用对应的设置页面
-                        }
-                    }
+                    // 请求定位权限
+                    locationPermissionLauncher.launch(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION))
                 }.show()
         }
     }

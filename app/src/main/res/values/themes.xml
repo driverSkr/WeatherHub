@@ -136,4 +136,9 @@
         <item name="android:layout_marginTop">4dp</item>
         <item name="android:textColor">@color/color_theme_666</item>
     </style>
+
+    <style name="AnimationCenterFade"><!--中间-->
+        <item name="android:windowEnterAnimation">@anim/window_show_anim</item>
+        <item name="android:windowExitAnimation">@anim/window_hidden_anim</item>
+    </style>
 </resources>

@@ -27,7 +27,9 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@+id/tv_sun_title">
 
-            <androidx.appcompat.widget.LinearLayoutCompat style="@style/indicator_item">
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/ll_sport"
+                style="@style/indicator_item">
 
                 <TextView
                     style="@style/indicator_item_title"
@@ -41,7 +43,9 @@
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <androidx.appcompat.widget.LinearLayoutCompat style="@style/indicator_item">
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/ll_wear"
+                style="@style/indicator_item">
 
                 <TextView
                     style="@style/indicator_item_title"
@@ -55,7 +59,9 @@
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <androidx.appcompat.widget.LinearLayoutCompat style="@style/indicator_item">
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/ll_uv"
+                style="@style/indicator_item">
 
                 <TextView
                     style="@style/indicator_item_title"
@@ -75,7 +81,9 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@+id/ll_indicator_line1">
 
-            <androidx.appcompat.widget.LinearLayoutCompat style="@style/indicator_item">
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/ll_cold"
+                style="@style/indicator_item">
 
                 <TextView
                     style="@style/indicator_item_title"
@@ -89,7 +97,9 @@
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <androidx.appcompat.widget.LinearLayoutCompat style="@style/indicator_item">
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/ll_car"
+                style="@style/indicator_item">
 
                 <TextView
                     style="@style/indicator_item_title"
@@ -103,7 +113,9 @@
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <androidx.appcompat.widget.LinearLayoutCompat style="@style/indicator_item">
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/ll_drying"
+                style="@style/indicator_item">
 
                 <TextView
                     style="@style/indicator_item_title"

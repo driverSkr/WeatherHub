@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.os.Build
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.driverskr.lib.extension.logD
+import com.driverskr.lib.extension.logE
 import com.driverskr.lib.extension.notEmpty
 import com.driverskr.lib.utils.DateUtil
 import com.driverskr.lib.utils.Typefaces
@@ -24,10 +26,12 @@ import com.driverskr.weatherhub.adapter.Forecast7dAdapter
 import com.driverskr.weatherhub.bean.*
 import com.driverskr.weatherhub.databinding.*
 import com.driverskr.weatherhub.dialog.AlarmDialog
+import com.driverskr.weatherhub.dialog.LifeIndexDialog
 import com.driverskr.weatherhub.ui.activity.vm.HomeViewModel
 import com.driverskr.weatherhub.ui.base.BaseVmFragment
 import com.driverskr.weatherhub.ui.fragment.vm.WeatherViewModel
 import com.driverskr.weatherhub.utils.Constant
+import com.driverskr.weatherhub.utils.DisplayUtil
 import com.driverskr.weatherhub.utils.Lunar
 import java.util.*
 
@@ -118,7 +122,7 @@ class WeatherFragment: BaseVmFragment<FragmentWeatherBinding, WeatherViewModel>(
         lifeIndicatorBinding = LayoutLifeIndicatorBinding.bind(mBinding.root)
 
         // 设置字体
-        mBinding.tvTodayTmp.typeface = Typefaces.get(requireContext(), "widget_clock.ttf")
+        mBinding.tvTodayTmp.typeface = Typefaces.get(requireContext(), "Futura-CondensedMedium.ttf")
 
         for (i in 0 until 3) {
             mForecastList.add(Daily(iconDay = "100", textDay = "晴", tempMin = "20", tempMax = "25"))
@@ -353,6 +357,14 @@ class WeatherFragment: BaseVmFragment<FragmentWeatherBinding, WeatherViewModel>(
         lifeIndicatorBinding.tvIndicatorCold.text = daily[4].category
         lifeIndicatorBinding.tvIndicatorCar.text = daily[1].category
         lifeIndicatorBinding.tvIndicatorDrying.text = daily[5].category
+
+        //点击弹窗
+        lifeIndicatorBinding.llSport.setOnClickListener { initLifeIndexDialog(daily[0]) }
+        lifeIndicatorBinding.llWear.setOnClickListener { initLifeIndexDialog(daily[2]) }
+        lifeIndicatorBinding.llUv.setOnClickListener { initLifeIndexDialog(daily[3]) }
+        lifeIndicatorBinding.llCold.setOnClickListener { initLifeIndexDialog(daily[4]) }
+        lifeIndicatorBinding.llCar.setOnClickListener { initLifeIndexDialog(daily[1]) }
+        lifeIndicatorBinding.llDrying.setOnClickListener { initLifeIndexDialog(daily[5]) }
     }
 
     override fun onDestroyView() {
@@ -387,11 +399,36 @@ class WeatherFragment: BaseVmFragment<FragmentWeatherBinding, WeatherViewModel>(
         nowTmp?.let {
             showTempByUnit()
         }
+        loadData()
+    }
+
+    /**
+     * 对"生活指数“弹窗的数据填充
+     * @param dailyBean 数据源
+     */
+    private fun initLifeIndexDialog(dailyBean: LifeIndicatorDaily) {
+        val dialog = LifeIndexDialog(context!!)
+        val dialogBinding = DialogLifeIndexDetailBinding.inflate(LayoutInflater.from(context))
+        dialogBinding.apply {
+            tvTitle.text = dailyBean.name
+            tvKind.text = dailyBean.category
+            tvText.text = dailyBean.text
+        }
+        when (dailyBean.type) {
+            "1" -> dialogBinding.ivContent.setImageResource(R.drawable.ic_indicator_sport)
+            "2" -> dialogBinding.ivContent.setImageResource(R.drawable.ic_indicator_car)
+            "3" -> dialogBinding.ivContent.setImageResource(R.drawable.ic_indicator_wear)
+            "5" -> dialogBinding.ivContent.setImageResource(R.drawable.ic_indicator_uv)
+            "9" -> dialogBinding.ivContent.setImageResource(R.drawable.ic_indicator_cold)
+            "14" -> dialogBinding.ivContent.setImageResource(R.drawable.ic_indicator_drying)
+            else -> logE(TAG,"生活指数弹窗创建出现异常")
+        }
+        dialog.showCenterPopupWindow(dialogBinding.root, DisplayUtil.dp2px(250f), DisplayUtil.dp2px(220f), true)
     }
 
     companion object {
 
-        private val TAG = WeatherFragment
+        private const val TAG = "WeatherFragment"
 
         @JvmStatic
         fun newInstance(param1: String?) =

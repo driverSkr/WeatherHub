@@ -84,7 +84,13 @@
             android:theme="@style/Left2Right" />
         <activity
             android:name=".ui.activity.LoginActivity"
-            android:exported="false" />
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.driverskr.weatherhub.LOGIN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".ui.activity.TestActivity"
             android:exported="false" />
