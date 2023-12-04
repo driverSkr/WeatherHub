@@ -349,6 +349,9 @@ class WeatherFragment: BaseVmFragment<FragmentWeatherBinding, WeatherViewModel>(
 
     }
 
+    /**
+     * 显示生活指数
+     */
     private fun showIndicator(lifeIndicator: LifeIndicator) {
         val daily = lifeIndicator.daily
         lifeIndicatorBinding.tvIndicatorSport.text = daily[0].category

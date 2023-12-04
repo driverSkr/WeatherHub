@@ -5,4 +5,6 @@
     <color name="color_theme_777">#999999</color>
     <color name="color_theme_999">#777777</color>
     <color name="color_theme_4a4a4a">#ffffff</color>
+
+    <color name="gray">#ededed</color>
 </resources>
