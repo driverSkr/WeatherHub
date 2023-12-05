@@ -2,7 +2,8 @@ package com.driverskr.weatherhub.bean
 
 data class AirNow(
     val now: Air,
-    val code: String
+    val code: String,
+    val fxLink: String
 )
 
 data class Air(

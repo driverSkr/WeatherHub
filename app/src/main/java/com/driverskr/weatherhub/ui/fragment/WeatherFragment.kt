@@ -27,6 +27,7 @@ import com.driverskr.weatherhub.bean.*
 import com.driverskr.weatherhub.databinding.*
 import com.driverskr.weatherhub.dialog.AlarmDialog
 import com.driverskr.weatherhub.dialog.LifeIndexDialog
+import com.driverskr.weatherhub.ui.activity.WebViewActivity
 import com.driverskr.weatherhub.ui.activity.vm.HomeViewModel
 import com.driverskr.weatherhub.ui.base.BaseVmFragment
 import com.driverskr.weatherhub.ui.fragment.vm.WeatherViewModel
@@ -250,16 +251,18 @@ class WeatherFragment: BaseVmFragment<FragmentWeatherBinding, WeatherViewModel>(
      * 空气质量
      */
     @SuppressLint("ObsoleteSdkInt")
-    private fun showAirNow(airNow: Air) {
+    private fun showAirNow(airNow: AirNow) {
+        val now = airNow.now
+        val fxLink = airNow.fxLink
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             mBinding.tvAirCondition.text =
-                getString(R.string.air_condition, airNow.aqi, airNow.category)
+                getString(R.string.air_condition, now.aqi, now.category)
 
             TextViewCompat.setCompoundDrawableTintList(
                 mBinding.tvAirCondition, ColorStateList.valueOf(
                     WeatherUtil.getAirColor(
                         requireContext(),
-                        airNow.aqi
+                        now.aqi
                     )
                 )
             )
@@ -267,14 +270,16 @@ class WeatherFragment: BaseVmFragment<FragmentWeatherBinding, WeatherViewModel>(
         } else {
             mBinding.tvAirCondition.visibility = View.GONE
         }
-        airQualityBinding.airConditionView.setValue(airNow.aqi.toInt(), airNow.category)
+        airQualityBinding.airConditionView.setValue(now.aqi.toInt(), now.category)
 
-        airQualityBinding.tvTodayPm25.text = airNow.pm2p5
-        airQualityBinding.tvTodaySo2.text = airNow.so2
-        airQualityBinding.tvTodayCo.text = airNow.co
-        airQualityBinding.tvTodayPm10.text = airNow.pm10
-        airQualityBinding.tvTodayNo2.text = airNow.no2
-        airQualityBinding.tvTodayO3.text = airNow.o3
+        airQualityBinding.tvTodayPm25.text = now.pm2p5
+        airQualityBinding.tvTodaySo2.text = now.so2
+        airQualityBinding.tvTodayCo.text = now.co
+        airQualityBinding.tvTodayPm10.text = now.pm10
+        airQualityBinding.tvTodayNo2.text = now.no2
+        airQualityBinding.tvTodayO3.text = now.o3
+
+        mBinding.tvAirCondition.setOnClickListener { WebViewActivity.startActivity(context!!,"空气质量",fxLink) }
     }
 
     /**

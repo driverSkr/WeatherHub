@@ -80,4 +80,13 @@ dependencies {
 
     //Coil图片加载库
     implementation("io.coil-kt:coil:1.1.1")
+
+    /*提升H5首屏加载速度：VasSonic*/
+    implementation 'com.tencent.sonic:sdk:3.1.0'
+
+    /*状态栏管理：Immersionbar*/
+    implementation 'com.gyf.immersionbar:immersionbar:3.0.0'
+
+    /*圆形图像：Circleimageview*/
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
 }

@@ -19,7 +19,7 @@ class WeatherViewModel(val app: Application) : BaseViewModel(app) {
 
     val weatherNow = MutableLiveData<Now>()
     val warnings = MutableLiveData<List<Warning>>()
-    val airNow = MutableLiveData<Air>()
+    val airNow = MutableLiveData<AirNow>()
     val forecast = MutableLiveData<List<Daily>>()
     val hourly = MutableLiveData<List<Hourly>>()
     val lifeIndicator = MutableLiveData<LifeIndicator>()
@@ -55,7 +55,7 @@ class WeatherViewModel(val app: Application) : BaseViewModel(app) {
         launch {
             val result = NetworkRepository.getInstance().airWeather(cityId)
             result.let {
-                airNow.postValue(it.now)
+                airNow.postValue(it)
             }
         }
         // 7天 天气预报

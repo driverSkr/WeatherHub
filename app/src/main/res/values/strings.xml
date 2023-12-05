@@ -66,4 +66,14 @@
     <string name="downloading_new_version">正在下载新版本…</string>
     <string name="login_plz">请登录</string>
     <string name="other">其他</string>
+
+    <!-- 分享 -->
+    <string name="share_to">分享到</string>
+    <string name="wechat">微信</string>
+    <string name="wechat_memory">朋友圈</string>
+    <string name="qq_friends">QQ</string>
+    <string name="qq_zone">QQ空间</string>
+    <string name="weibo">微博</string>
+    <string name="more">更多</string>
+    <string name="share_unknown_error">分享出现未知异常</string>
 </resources>

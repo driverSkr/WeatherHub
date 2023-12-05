@@ -30,4 +30,10 @@ object Constant {
     var screenHeight = 0
 
     const val TC_APP_ID = "101991873"
+
+    /**
+     * 获取当前应用程序的名称。
+     * @return 当前应用程序的名称。
+     */
+    val appName: String get() = context.resources.getString(context.applicationInfo.labelRes)
 }

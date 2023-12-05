@@ -7,4 +7,5 @@
     <color name="color_theme_4a4a4a">#ffffff</color>
 
     <color name="gray">#ededed</color>
+    <color name="grayDark">#adadad</color>
 </resources>
