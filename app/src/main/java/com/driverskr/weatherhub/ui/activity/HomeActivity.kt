@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable
 import android.graphics.drawable.TransitionDrawable
 import android.location.LocationManager
 import android.view.View
+import android.widget.CheckBox
 import android.widget.LinearLayout
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -71,6 +72,7 @@ class HomeActivity: BaseVmActivity<ActivityHomeBinding, HomeViewModel>(), Locati
     private val loginViewModel: LoginViewModel by viewModels()
     private lateinit var navHeaderBinding: NavHeaderMainBinding
     private var locationViewModel: SearchViewModel? = null
+    private var foregroundCheck: CheckBox? = null //开启状态栏组件的按钮
 
     //用于跟踪上次按下返回按钮的时间，以实现双击返回按钮退出应用的功能
     private var backPressTime = 0L
@@ -152,7 +154,12 @@ class HomeActivity: BaseVmActivity<ActivityHomeBinding, HomeViewModel>(), Locati
         // 设置默认单位
         val unitConfig = PreferenceManager.getDefaultSharedPreferences(context)
             .getString("unit", TempUnit.SHE.tag)
+        // 是否开启状态栏组件
+        val foregroundState = PreferenceManager.getDefaultSharedPreferences(context)
+            .getBoolean("foreground_checkout", false)
         val menu = mBinding.navView.menu
+        foregroundCheck = menu.findItem(R.id.navForeground).actionView.findViewById(R.id.checkBox)
+        foregroundCheck?.isChecked = foregroundState
         if (unitConfig == "she") {
             menu.findItem(R.id.navShe).isChecked = true
         } else {
@@ -184,6 +191,17 @@ class HomeActivity: BaseVmActivity<ActivityHomeBinding, HomeViewModel>(), Locati
                 R.id.navTheme -> {
                     startActivity<ThemeActivity>()
                 }
+                R.id.navForeground -> {
+                    if (foregroundCheck?.isChecked == true) {
+                        foregroundCheck?.isChecked = false
+                        viewModel.changeForeground(false)
+                        toast("你关闭了前台服务")
+                    } else {
+                        foregroundCheck?.isChecked = true
+                        viewModel.changeForeground(true)
+                        toast("你打开了前台服务")
+                    }
+                }
                 R.id.navShe -> {
                     changeUnit(TempUnit.SHE)
                     mBinding.drawerLayout.closeDrawer(GravityCompat.END)
@@ -197,6 +215,9 @@ class HomeActivity: BaseVmActivity<ActivityHomeBinding, HomeViewModel>(), Locati
                 }
                 R.id.navAbout -> {
                     startActivity<AboutActivity>()
+                }
+                R.id.navShare -> {
+                    toast("你点击了分享")
                 }
             }
             true

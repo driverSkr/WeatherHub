@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item android:title="@string/setting">
         <menu>
@@ -11,6 +12,11 @@
                 android:id="@+id/navTheme"
                 android:icon="@drawable/ic_theme"
                 android:title="@string/theme_skin" />
+            <item
+                android:id="@+id/navForeground"
+                android:icon="@drawable/ic_foreground"
+                android:title="@string/foreground_service"
+                app:actionLayout="@layout/menu_item_with_checkbox"/>
         </menu>
     </item>
 
@@ -39,6 +45,10 @@
                 android:id="@+id/navAbout"
                 android:icon="@drawable/ic_about"
                 android:title="@string/about"/>
+            <item
+                android:id="@+id/navShare"
+                android:icon="@drawable/ic_share"
+                android:title="@string/share"/>
         </menu>
     </item>
 </menu>

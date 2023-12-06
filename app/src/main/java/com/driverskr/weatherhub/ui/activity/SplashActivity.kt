@@ -7,6 +7,7 @@ import android.view.ViewPropertyAnimator
 import androidx.lifecycle.lifecycleScope
 import com.driverskr.lib.extension.logD
 import com.driverskr.lib.extension.startActivity
+import com.driverskr.lib.extension.toast
 import com.driverskr.weatherhub.databinding.ActivitySplashBinding
 import com.driverskr.weatherhub.logic.DBRepository
 import com.driverskr.weatherhub.service.WidgetService
@@ -30,6 +31,9 @@ class SplashActivity: BaseActivity<ActivitySplashBinding>() {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 //startForegroundService(Intent(this@SplashActivity, WidgetService::class.java))
                 logD("SplashActivity","startService")
+                if (Constant.FOREGROUND_CHECKBOX) {
+                    toast("打开通知栏组件")
+                }
             } else {
                 startService(Intent(this@SplashActivity, WidgetService::class.java))
                 logD("SplashActivity","startService")

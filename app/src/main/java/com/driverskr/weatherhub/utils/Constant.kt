@@ -18,6 +18,7 @@ object Constant {
     //    public static String SYS_LANG = "zh";
     @JvmField
     var APP_SETTING_UNIT = PreferenceManager.getDefaultSharedPreferences(context).getString("unit","she")
+    val FOREGROUND_CHECKBOX = PreferenceManager.getDefaultSharedPreferences(context).getBoolean("foreground_checkout",false)
 
     @JvmField
     @Volatile

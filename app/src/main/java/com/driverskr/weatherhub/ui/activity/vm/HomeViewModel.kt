@@ -52,4 +52,11 @@ class HomeViewModel(val app: Application): BaseViewModel(app) {
             apply()
         }
     }
+
+    fun changeForeground(state: Boolean) {
+        PreferenceManager.getDefaultSharedPreferences(app).edit().apply {
+            putBoolean("foreground_checkout", state)
+            apply()
+        }
+    }
 }
