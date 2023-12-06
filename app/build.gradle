@@ -42,6 +42,7 @@ android {
         main{
             jniLibs.srcDir 'libs'
             jni.srcDirs = []    //disable automatic ndk-build
+            assets.srcDirs = ['src/main/assets']
         }
     }
 

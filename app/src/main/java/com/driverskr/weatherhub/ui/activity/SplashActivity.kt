@@ -31,7 +31,7 @@ class SplashActivity: BaseActivity<ActivitySplashBinding>() {
                 //startForegroundService(Intent(this@SplashActivity, WidgetService::class.java))
                 logD("SplashActivity","startService")
             } else {
-                //startService(Intent(this@SplashActivity, WidgetService::class.java))
+                startService(Intent(this@SplashActivity, WidgetService::class.java))
                 logD("SplashActivity","startService")
             }
 

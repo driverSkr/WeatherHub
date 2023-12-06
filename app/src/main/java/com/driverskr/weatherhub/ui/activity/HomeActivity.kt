@@ -7,7 +7,6 @@ import android.graphics.drawable.Animatable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.TransitionDrawable
 import android.location.LocationManager
-import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
 import androidx.activity.result.contract.ActivityResultContracts
@@ -48,6 +47,7 @@ import com.driverskr.weatherhub.ui.activity.vm.SearchViewModel
 import com.driverskr.weatherhub.ui.base.BaseVmActivity
 import com.driverskr.weatherhub.ui.fragment.WeatherFragment
 import com.driverskr.weatherhub.utils.Constant
+import com.driverskr.weatherhub.utils.Constant.appName
 import com.driverskr.weatherhub.utils.DisplayUtil
 import com.driverskr.weatherhub.utils.PermissionUtils
 import com.driverskr.weatherhub.utils.TencentUtil
@@ -71,6 +71,9 @@ class HomeActivity: BaseVmActivity<ActivityHomeBinding, HomeViewModel>(), Locati
     private val loginViewModel: LoginViewModel by viewModels()
     private lateinit var navHeaderBinding: NavHeaderMainBinding
     private var locationViewModel: SearchViewModel? = null
+
+    //用于跟踪上次按下返回按钮的时间，以实现双击返回按钮退出应用的功能
+    private var backPressTime = 0L
 
     private val launcher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
@@ -433,9 +436,26 @@ class HomeActivity: BaseVmActivity<ActivityHomeBinding, HomeViewModel>(), Locati
         return false
     }
 
+    /**
+     * 当用户点击返回按钮时，如果抽屉布局是打开的，那么就关闭它，否则就执行processBackPressed()
+     */
     override fun onBackPressed() {
         if (mBinding.drawerLayout.isDrawerOpen(GravityCompat.END)) {
             mBinding.drawerLayout.closeDrawer(GravityCompat.END)
+        } else {
+            processBackPressed()
+        }
+    }
+
+    /**
+     * 如果距离上一次点击返回按钮（即backPressTime）的时间超过2000毫秒（即2秒），那么就会弹出一个Toast提示用户再次点击返回按钮以退出应用。然后，将当前时间赋值给backPressTime。
+     * 如果距离上一次点击返回按钮的时间不到2秒，那么就调用super.onBackPressed()，这通常会导致Activity被销毁，返回上一个Activity。
+     */
+    private fun processBackPressed() {
+        val now = System.currentTimeMillis()
+        if (now - backPressTime > 2000) {
+            toast(getString(R.string.press_again_to_exit) + appName)
+            backPressTime = now
         } else {
             super.onBackPressed()
         }
