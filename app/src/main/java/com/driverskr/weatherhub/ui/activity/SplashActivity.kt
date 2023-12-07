@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Build
 import android.view.ViewPropertyAnimator
 import androidx.lifecycle.lifecycleScope
+import androidx.preference.PreferenceManager
 import com.driverskr.lib.extension.logD
 import com.driverskr.lib.extension.startActivity
 import com.driverskr.lib.extension.toast
@@ -30,6 +31,7 @@ class SplashActivity: BaseActivity<ActivitySplashBinding>() {
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 //startForegroundService(Intent(this@SplashActivity, WidgetService::class.java))
+                // 是否开启状态栏组件
                 logD("SplashActivity","startService")
                 if (Constant.FOREGROUND_CHECKBOX) {
                     toast("打开通知栏组件")

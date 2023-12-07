@@ -51,7 +51,7 @@ object ShareUtil {
                 share(activity, shareContent, "com.sina.weibo", "com.sina.weibo.composerinde.ComposerDispatchActivity")
             }
             SHARE_QQZONE -> {
-                if (!GlobalUtil.isWeiboInstalled()) {
+                if (!GlobalUtil.isQZoneInstalled()) {
                     activity.toast("您的手机还没安装QQ空间")
                     return
                 }

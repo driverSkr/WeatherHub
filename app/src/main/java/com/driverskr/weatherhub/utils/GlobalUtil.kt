@@ -27,6 +27,11 @@ object GlobalUtil {
     fun isQQInstalled() = isInstalled("com.tencent.mobileqq")
 
     /**
+     * 判断手机是否安装了QQ空间。
+     * */
+    fun isQZoneInstalled() = isInstalled("com.qzone")
+
+    /**
      * 判断手机是否安装了微信。
      */
     fun isWechatInstalled() = isInstalled("com.tencent.mm")

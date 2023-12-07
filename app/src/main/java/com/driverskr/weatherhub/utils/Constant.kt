@@ -14,11 +14,11 @@ object Constant {
 
     const val HEFENG_KEY = "809025b8d5864149af26f51637d89049"
 
-    //应用设置里的文字
-    //    public static String SYS_LANG = "zh";
+    //应用设置里的温度格式
     @JvmField
     var APP_SETTING_UNIT = PreferenceManager.getDefaultSharedPreferences(context).getString("unit","she")
-    val FOREGROUND_CHECKBOX = PreferenceManager.getDefaultSharedPreferences(context).getBoolean("foreground_checkout",false)
+    //前台服务是否开启
+    val FOREGROUND_CHECKBOX get() = PreferenceManager.getDefaultSharedPreferences(context).getBoolean("foreground_checkout",false)
 
     @JvmField
     @Volatile

@@ -21,8 +21,14 @@
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 
     <queries>
+        <!-- 手机QQ -->
         <package android:name="com.tencent.mobileqq" />
+        <!--QQ轻聊版-->
         <package android:name="com.tencent.tim" />
+        <!-- 微信 -->
+        <package android:name="com.tencent.mm" />
+        <!-- 新浪微博 -->
+        <package android:name="com.sina.weibo" />
     </queries>
 
     <application
@@ -154,6 +160,15 @@
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/weather_widget_info" />
+        </receiver>
+        <receiver
+            android:name=".receiver.BootCompleteReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </receiver>
     </application>
 

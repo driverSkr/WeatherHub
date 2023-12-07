@@ -22,7 +22,6 @@ import com.driverskr.weatherhub.logic.DBRepository
 import com.driverskr.weatherhub.logic.NetworkRepository
 import com.driverskr.weatherhub.ui.activity.SplashActivity
 import com.driverskr.weatherhub.ui.fragment.vm.CACHE_WEATHER_NOW
-import com.driverskr.weatherhub.utils.Constant
 import com.driverskr.weatherhub.utils.Lunar
 import com.driverskr.weatherhub.utils.NotificationUtil
 import com.driverskr.weatherhub.utils.RomUtil
@@ -73,19 +72,24 @@ class WidgetService : LifecycleService() {
         }
 
         connManager = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+        //如果 Android 版本是 Nougat（7.0）或更高
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            //注册网络回调
             connManager.registerDefaultNetworkCallback(callback)
         } else {
             val intentFilter = IntentFilter()
             intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE")
+            //注册一个用于监听连接状态变化的广播接收器。
             registerReceiver(netWorkStateReceiver, intentFilter)
         }
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         if (isFirst) {
+            //第一次运行onStartCommand时不需要更新数据
             isFirst = false
         } else {
+            //更新数据
             lifecycleScope.launch(Dispatchers.IO + CoroutineExceptionHandler { _, _ -> }) {
                 updateRemoteOnce()
             }
@@ -93,29 +97,43 @@ class WidgetService : LifecycleService() {
         return super.onStartCommand(intent, flags, startId)
     }
 
+    /**
+     * 网络连接回调
+     * * 定义了一个用于处理网络连接变化的回调对象。
+     */
     private val callback = @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     object : ConnectivityManager.NetworkCallback() {
+        //当网络可用时
         override fun onAvailable(network: Network) {
             super.onAvailable(network)
             logD(TAG,"network available。。。。")
+            //更新数据
             updateRemote()
         }
+        //当网络不可用时
         override fun onLost(network: Network) {
             super.onLost(network)
             logD(TAG,"network unavailable。。。。")
+            //取消定时任务 (intervalJob)
             intervalJob?.cancel()
             intervalJob = null
         }
     }
 
+    //定义了一个用于监听网络状态变化的广播接收器
     private val netWorkStateReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             val activeNetworkInfo = connManager.activeNetworkInfo
+            //当网络可用时
             if (activeNetworkInfo != null && activeNetworkInfo.isAvailable) {
                 logD(TAG,"network available。。。。")
+                //更新数据
                 updateRemote()
-            } else {
+            }
+            //当网络不可用时
+            else {
                 logD(TAG,"network unavailable。。。。")
+                //取消定时任务 (intervalJob)
                 intervalJob?.cancel()
                 intervalJob = null
             }
@@ -132,6 +150,9 @@ class WidgetService : LifecycleService() {
 
     private var intervalJob: Job? = null
 
+    /**
+     * 用于启动一个定时任务，定时执行 updateRemoteOnce()
+     */
     private fun updateRemote() {
         if (intervalJob != null) {
             return
@@ -147,6 +168,9 @@ class WidgetService : LifecycleService() {
         }
     }
 
+    /**
+     * 获取城市信息，然后使用 NetworkRepository 获取当前天气信息，并更新通知和小部件
+     */
     private suspend fun updateRemoteOnce() {
         val cities = DBRepository.getInstance().getCities()
         if (cities.isNotEmpty()) {
@@ -176,6 +200,7 @@ class WidgetService : LifecycleService() {
         }
     }
 
+    //小部件更新
     @SuppressLint("RemoteViewLayout")
     private suspend fun updateWidget(cityId: String, cityName: String, now: Now?) {
         logD("WidgetService","updateWidget.............")

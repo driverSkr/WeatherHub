@@ -1,5 +1,6 @@
 package com.driverskr.weatherhub.widget
 
+import android.annotation.SuppressLint
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
@@ -12,6 +13,7 @@ import com.driverskr.weatherhub.service.WidgetService
 /**
  * Implementation of App Widget functionality.
  */
+@SuppressLint("ObsoleteSdkInt")
 class WeatherWidget : AppWidgetProvider() {
     override fun onUpdate(
         context: Context,
