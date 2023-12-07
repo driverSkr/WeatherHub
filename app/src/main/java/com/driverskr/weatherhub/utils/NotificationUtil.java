@@ -46,7 +46,9 @@ public class NotificationUtil {
             builder = initBaseBuilder(context, "","", R.mipmap.ic_launcher_round);
             // 点击事件
             Intent intent = new Intent(context, SplashActivity.class);
-            PendingIntent contentIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            //FLAG_IMMUTABLE：指定 PendingIntent 是不可变的。
+            //如果使用了该标志，表示创建的 PendingIntent 对象的内容不会在其生命周期内发生更改。推荐用于大多数情况
+            PendingIntent contentIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
             builder.setContentIntent(contentIntent);
             notificationMap.put(notifyId, builder);
         }

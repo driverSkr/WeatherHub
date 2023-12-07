@@ -29,16 +29,16 @@ class SplashActivity: BaseActivity<ActivitySplashBinding>() {
         lifecycleScope.launch {
             var citySize: Int
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                //startForegroundService(Intent(this@SplashActivity, WidgetService::class.java))
-                // 是否开启状态栏组件
-                logD("SplashActivity","startService")
-                if (Constant.FOREGROUND_CHECKBOX) {
-                    toast("打开通知栏组件")
+            // 是否开启状态栏组件
+            if (Constant.FOREGROUND_CHECKBOX) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    startForegroundService(Intent(this@SplashActivity, WidgetService::class.java))
+                    logD("SplashActivity","startService")
+                    toast("已打开通知栏组件！")
+                } else {
+                    startService(Intent(this@SplashActivity, WidgetService::class.java))
+                    logD("SplashActivity","startService")
                 }
-            } else {
-                startService(Intent(this@SplashActivity, WidgetService::class.java))
-                logD("SplashActivity","startService")
             }
 
             withContext(Dispatchers.IO) {

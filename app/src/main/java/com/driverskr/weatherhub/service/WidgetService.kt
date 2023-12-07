@@ -85,6 +85,11 @@ class WidgetService : LifecycleService() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        if (intent?.action == "STOP_FOREGROUND_ACTION") {
+            stopForeground(true)
+            //用于指示系统在服务被终止后不会自动重新启动
+            return START_NOT_STICKY
+        }
         if (isFirst) {
             //第一次运行onStartCommand时不需要更新数据
             isFirst = false

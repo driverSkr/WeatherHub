@@ -1,17 +1,22 @@
 package com.driverskr.weatherhub.ui.activity
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.graphics.drawable.Animatable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.TransitionDrawable
 import android.location.LocationManager
+import android.os.Build
 import android.view.View
 import android.widget.CheckBox
 import android.widget.LinearLayout
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.core.app.ServiceCompat
+import androidx.core.app.ServiceCompat.stopForeground
+
 import androidx.core.view.GravityCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -41,6 +46,7 @@ import com.driverskr.weatherhub.location.LocationCallback
 import com.driverskr.weatherhub.location.WeatherHubLocation
 import com.driverskr.weatherhub.logic.DBRepository
 import com.driverskr.weatherhub.logic.db.entity.CityEntity
+import com.driverskr.weatherhub.service.WidgetService
 import com.driverskr.weatherhub.ui.activity.vm.HomeViewModel
 import com.driverskr.weatherhub.ui.activity.vm.LAST_LOCATION
 import com.driverskr.weatherhub.ui.activity.vm.LoginViewModel
@@ -195,10 +201,12 @@ class HomeActivity: BaseVmActivity<ActivityHomeBinding, HomeViewModel>(), Locati
                     if (foregroundCheck?.isChecked == true) {
                         foregroundCheck?.isChecked = false
                         viewModel.changeForeground(false)
+                        closeForegroundService()
                         toast("你关闭了前台服务")
                     } else {
                         foregroundCheck?.isChecked = true
                         viewModel.changeForeground(true)
+                        openForegroundService()
                         toast("你打开了前台服务")
                     }
                 }
@@ -479,6 +487,38 @@ class HomeActivity: BaseVmActivity<ActivityHomeBinding, HomeViewModel>(), Locati
             backPressTime = now
         } else {
             super.onBackPressed()
+        }
+    }
+
+    /**
+     * 开启前台服务
+     */
+    @SuppressLint("ObsoleteSdkInt")
+    private fun openForegroundService() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startForegroundService(Intent(this@HomeActivity, WidgetService::class.java))
+            logD(TAG,"startService")
+            toast("已打开通知栏组件！")
+        } else {
+            startService(Intent(this@HomeActivity, WidgetService::class.java))
+            logD(TAG,"startService")
+        }
+    }
+
+    /**
+     * 关闭前台服务
+     */
+    @SuppressLint("ObsoleteSdkInt")
+    private fun closeForegroundService() {
+        val serviceIntent = Intent(this@HomeActivity, WidgetService::class.java)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            // 停止前台服务
+            val stopIntent = Intent(this@HomeActivity, WidgetService::class.java)
+            stopIntent.action = "STOP_FOREGROUND_ACTION"
+            startService(stopIntent)
+        } else {
+            // 停止服务
+            stopService(serviceIntent)
         }
     }
 
