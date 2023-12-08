@@ -53,11 +53,8 @@ import com.driverskr.weatherhub.ui.activity.vm.LoginViewModel
 import com.driverskr.weatherhub.ui.activity.vm.SearchViewModel
 import com.driverskr.weatherhub.ui.base.BaseVmActivity
 import com.driverskr.weatherhub.ui.fragment.WeatherFragment
-import com.driverskr.weatherhub.utils.Constant
+import com.driverskr.weatherhub.utils.*
 import com.driverskr.weatherhub.utils.Constant.appName
-import com.driverskr.weatherhub.utils.DisplayUtil
-import com.driverskr.weatherhub.utils.PermissionUtils
-import com.driverskr.weatherhub.utils.TencentUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -225,7 +222,7 @@ class HomeActivity: BaseVmActivity<ActivityHomeBinding, HomeViewModel>(), Locati
                     startActivity<AboutActivity>()
                 }
                 R.id.navShare -> {
-                    toast("你点击了分享")
+                    ShareUtil.showDialogShare(this, "${title}:我来自天气通，后续我会给你带来更好的分享体验！")
                 }
             }
             true
@@ -511,15 +508,8 @@ class HomeActivity: BaseVmActivity<ActivityHomeBinding, HomeViewModel>(), Locati
     @SuppressLint("ObsoleteSdkInt")
     private fun closeForegroundService() {
         val serviceIntent = Intent(this@HomeActivity, WidgetService::class.java)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            // 停止前台服务
-            val stopIntent = Intent(this@HomeActivity, WidgetService::class.java)
-            stopIntent.action = "STOP_FOREGROUND_ACTION"
-            startService(stopIntent)
-        } else {
-            // 停止服务
-            stopService(serviceIntent)
-        }
+        // 停止服务
+        stopService(serviceIntent)
     }
 
     companion object {
