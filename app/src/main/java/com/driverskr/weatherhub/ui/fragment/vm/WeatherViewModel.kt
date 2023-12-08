@@ -17,12 +17,12 @@ const val CACHE_LIFE_INDICATOR = "now_life_indicator_"
 
 class WeatherViewModel(val app: Application) : BaseViewModel(app) {
 
-    val weatherNow = MutableLiveData<Now>()
-    val warnings = MutableLiveData<List<Warning>>()
-    val airNow = MutableLiveData<AirNow>()
-    val forecast = MutableLiveData<List<Daily>>()
-    val hourly = MutableLiveData<List<Hourly>>()
-    val lifeIndicator = MutableLiveData<LifeIndicator>()
+    val weatherNow = MutableLiveData<Now?>()
+    val warnings = MutableLiveData<List<Warning>?>()
+    val airNow = MutableLiveData<AirNow?>()
+    val forecast = MutableLiveData<List<Daily>?>()
+    val hourly = MutableLiveData<List<Hourly>?>()
+    val lifeIndicator = MutableLiveData<LifeIndicator?>()
 
     fun loadCache(cityId: String) {
         launchSilent {

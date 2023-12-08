@@ -21,7 +21,7 @@ const val LAST_LOCATION = "LAST_LOCATION"
 
 class SearchViewModel(private val app: Application): BaseViewModel(app) {
 
-    val searchResult = MutableLiveData<List<Location>>()
+    val searchResult = MutableLiveData<List<Location>?>()
 
     val curCity = MutableLiveData<Location>()
 
@@ -41,7 +41,7 @@ class SearchViewModel(private val app: Application): BaseViewModel(app) {
     fun searchCity(keywords: String) {
         launchSilent {
             val result = NetworkRepository.getInstance().searchCity(keywords,"exact")
-            result.let {
+            result?.let {
                 searchResult.postValue(it.location)
             }
         }
@@ -87,7 +87,7 @@ class SearchViewModel(private val app: Application): BaseViewModel(app) {
             }
 
             val result = NetworkRepository.getInstance().searchCity(cityName,"exact")
-            result.let {
+            result?.let {
                 if (save) {
                     curCity.postValue(it.location[0])
                 } else {

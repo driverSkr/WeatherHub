@@ -11,7 +11,7 @@ import java.util.*
 /**
  * @Author: driverSkr
  * @Time: 2023/11/30 14:47
- * @Description: $
+ * @Description: 城市管理$
  */
 class CityManagerAdapter(
     private val mData: List<CityEntity>,
