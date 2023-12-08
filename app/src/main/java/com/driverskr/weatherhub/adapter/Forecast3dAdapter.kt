@@ -73,7 +73,7 @@ class Forecast3dAdapter(val context: Context, private val data: List<Daily>?):
         }
     }
 
-    override fun getItemCount(): Int = data?.size ?: 0
+    override fun getItemCount(): Int = data?.let { 3 } ?: 0
 
     class ViewHolder(val binding: ItemForecastBinding) : RecyclerView.ViewHolder(binding.root)
 

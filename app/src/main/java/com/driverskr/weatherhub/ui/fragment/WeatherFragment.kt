@@ -376,7 +376,9 @@ class WeatherFragment: BaseVmFragment<FragmentWeatherBinding, WeatherViewModel>(
     private fun showIndicator(lifeIndicator: LifeIndicator?) {
         val daily = lifeIndicator?.daily
         daily?.let {
+            logD(TAG,"生活指数数据：$it")
             lifeIndicatorBinding.tvIndicatorSport.text = it[0].category
+            logD(TAG,"生活指数数据0：${it[0].category}")
             lifeIndicatorBinding.tvIndicatorWear.text = it[2].category
             lifeIndicatorBinding.tvIndicatorUv.text = it[3].category
             lifeIndicatorBinding.tvIndicatorCold.text = it[4].category
