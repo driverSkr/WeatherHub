@@ -5,13 +5,11 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.location.LocationManager
-import android.os.Bundle
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.GridLayoutManager
 import com.baidu.location.BDLocation
@@ -296,12 +294,12 @@ class AddCityActivity: BaseVmActivity<ActivityAddCityBinding, SearchViewModel>()
      * 展示搜索结果
      */
     @SuppressLint("NotifyDataSetChanged")
-    private fun showSearchResult(basic: List<Location>) {
+    private fun showSearchResult(basic: List<Location>?) {
         mBinding.rvSearch.visibility = View.VISIBLE
 
         searchCities.clear()
 
-        basic.forEach { item ->
+        basic?.forEach { item ->
             searchCities.add(location2CityBean(item))
         }
         searchAdapter?.notifyDataSetChanged()
@@ -343,7 +341,7 @@ class AddCityActivity: BaseVmActivity<ActivityAddCityBinding, SearchViewModel>()
     override fun finish() {
         hideKeyboard()
         super.finish()
-        overridePendingTransition(R.anim.slide_right_in, R.anim.slide_left_out);
+        overridePendingTransition(R.anim.slide_right_in, R.anim.slide_left_out)
     }
 
     companion object {

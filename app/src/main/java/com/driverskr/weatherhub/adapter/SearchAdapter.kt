@@ -2,11 +2,12 @@ package com.driverskr.weatherhub.adapter
 
 import android.content.Context
 import android.text.Spannable
-import android.text.SpannableString
+import android.text.SpannableStringBuilder
 import android.text.TextUtils
 import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.driverskr.weatherhub.R
 import com.driverskr.weatherhub.bean.CityBean
@@ -41,28 +42,39 @@ class SearchAdapter(
         if (TextUtils.isEmpty(item.adminArea)) {
             cityName = location + "，" + parentCity + "，" + item.cnty
         }
+        //高亮关键字
         if (!TextUtils.isEmpty(cityName)) {
             viewHolder.binding.tvCity.text = cityName
             if (cityName.contains(searchText)) {
-                val index = cityName.indexOf(searchText)
-                //创建一个 SpannableString对象
-                val sp = SpannableString(cityName)
-                //设置高亮样式一
-                sp.setSpan(
-                    ForegroundColorSpan(mContext.resources.getColor(R.color.light_text_color)),
-                    index,
-                    index + searchText.length,
-                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-                )
-                viewHolder.binding.tvCity.text = sp
+                viewHolder.binding.tvCity.text = matcherSearchText(cityName,searchText)
             }
         }
+        //点击添加到数据库
         viewHolder.itemView.setOnClickListener {
             onCityChecked(data[position])
         }
     }
 
     override fun getItemCount() = data.size
+
+    /**
+     * 改变一段文本中第一个关键字的文字颜色
+     *
+     * @param string  文本字符串
+     * @param keyWord 关键字
+     * SpannableStringBuilder ，通过这个可以设置一行文字多种颜色
+     */
+    private fun matcherSearchText(string: String, keyWord: String): CharSequence {
+        val buildr = SpannableStringBuilder(string)
+        //返回关键字在原始字符串中第一次出现的位置的索引
+        val index = string.indexOf(keyWord)
+        if (index != -1) {
+            buildr.setSpan(ForegroundColorSpan(ContextCompat.getColor(mContext,R.color.light_text_color)),
+                index,index + keyWord.length,Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        }
+
+        return buildr
+    }
 
     internal inner class ViewHolder(val binding: ItemSearchingBinding) : RecyclerView.ViewHolder(binding.root)
 }

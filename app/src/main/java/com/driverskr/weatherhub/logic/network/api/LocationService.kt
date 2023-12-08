@@ -18,7 +18,7 @@ interface LocationService {
 
     @GET("/v2/city/lookup?key=$HEFENG_KEY&range=cn")
     suspend fun searchCity(@Query("location") location: String,
-                           @Query("mode") mode: String): SearchCity
+                           @Query("mode") mode: String): SearchCity?
 
     @POST("/api/check_version2?key=$HEFENG_KEY&build_type=$BAIDU_KEY")
     suspend fun checkVersion(): VersionBean

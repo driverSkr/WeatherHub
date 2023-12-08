@@ -28,6 +28,7 @@ import com.driverskr.weatherhub.databinding.*
 import com.driverskr.weatherhub.dialog.AlarmDialog
 import com.driverskr.weatherhub.dialog.LifeIndexDialog
 import com.driverskr.weatherhub.ui.activity.WebViewActivity
+import com.driverskr.weatherhub.ui.activity.WebViewActivity.Companion.DEFAULT_URL
 import com.driverskr.weatherhub.ui.activity.vm.HomeViewModel
 import com.driverskr.weatherhub.ui.base.BaseVmFragment
 import com.driverskr.weatherhub.ui.fragment.vm.WeatherViewModel
@@ -189,20 +190,23 @@ class WeatherFragment: BaseVmFragment<FragmentWeatherBinding, WeatherViewModel>(
     }
 
     @SuppressLint("SetTextI18n")
-    fun showWeatherNow(now: Now) {
-        condCode = now.icon
-        nowTmp = now.temp
-        lifecycleScope.launchWhenResumed {
-            homeViewModel.setCondCode(now.icon)
+    fun showWeatherNow(now: Now?) {
+        now?.let {
+            condCode = it.icon
+            nowTmp = it.temp
+            lifecycleScope.launchWhenResumed {
+                homeViewModel.setCondCode(it.icon)
+            }
+            mBinding.tvTodayCond.text = it.text
+            mBinding.tvUnit.visibility = View.VISIBLE
+
+            showTempByUnit()
+
+            todayBriefInfoBinding.tvHumidity.text = it.humidity + "%"
+            todayBriefInfoBinding.tvWindScale.text = it.windDir + it.windScale + "级"
+            todayBriefInfoBinding.tvPressure.text = it.pressure + "hpa"
         }
-        mBinding.tvTodayCond.text = now.text
-        mBinding.tvUnit.visibility = View.VISIBLE
 
-        showTempByUnit()
-
-        todayBriefInfoBinding.tvHumidity.text = now.humidity + "%"
-        todayBriefInfoBinding.tvWindScale.text = now.windDir + now.windScale + "级"
-        todayBriefInfoBinding.tvPressure.text = now.pressure + "hpa"
     }
 
     @SuppressLint("SetTextI18n")
@@ -223,156 +227,172 @@ class WeatherFragment: BaseVmFragment<FragmentWeatherBinding, WeatherViewModel>(
      * 三天预报
      */
     @SuppressLint("NotifyDataSetChanged")
-    private fun showForecast(dailyForecast: List<Daily>) {
+    private fun showForecast(dailyForecast: List<Daily>?) {
         val currentTime = DateUtil.getNowTime()
-        val forecastBase = dailyForecast[0]
+        val forecastBase = dailyForecast?.get(0)
         todayWeather = forecastBase
 
-        sunMoonBinding.sunView.setTimes(todayWeather?.sunrise, todayWeather?.sunset, currentTime)
-        sunMoonBinding.moonView.setTimes(todayWeather?.moonrise, todayWeather?.moonset, currentTime)
+        todayWeather?.let {
+            sunMoonBinding.sunView.setTimes(it.sunrise, it.sunset, currentTime)
+            sunMoonBinding.moonView.setTimes(it.moonrise, it.moonset, currentTime)
 
-        sunMoonBinding.tvMoonPhrase.text = todayWeather?.moonPhase
-
-        mForecastList.clear()
-        mForecastList.addAll(dailyForecast)
-
-        mForecastAdapter3d?.notifyDataSetChanged()
-        var min = forecastBase.tempMin.toInt()
-        var max = forecastBase.tempMax.toInt()
-        mForecastList.forEach {
-            min = it.tempMin.toInt().coerceAtMost(min)
-            max = it.tempMax.toInt().coerceAtLeast(max)
+            sunMoonBinding.tvMoonPhrase.text = it.moonPhase
         }
 
-        mForecastAdapter7d?.setRange(min, max)
+        mForecastList.clear()
+        dailyForecast?.let { mForecastList.addAll(it) }
+
+        mForecastAdapter3d?.notifyDataSetChanged()
+        forecastBase?.let {
+            var min = it.tempMin.toInt()
+            var max = it.tempMax.toInt()
+
+            mForecastList.forEach {daily ->
+                min = daily.tempMin.toInt().coerceAtMost(min)
+                max = daily.tempMax.toInt().coerceAtLeast(max)
+            }
+
+            mForecastAdapter7d?.setRange(min, max)
+        }
     }
 
     /**
      * 空气质量
      */
     @SuppressLint("ObsoleteSdkInt")
-    private fun showAirNow(airNow: AirNow) {
-        val now = airNow.now
-        val fxLink = airNow.fxLink
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            mBinding.tvAirCondition.text =
-                getString(R.string.air_condition, now.aqi, now.category)
+    private fun showAirNow(airNow: AirNow?) {
+        val now = airNow?.now
+        val fxLink = airNow?.fxLink
+        now?.let {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                mBinding.tvAirCondition.text =
+                    getString(R.string.air_condition, it.aqi, it.category)
 
-            TextViewCompat.setCompoundDrawableTintList(
-                mBinding.tvAirCondition, ColorStateList.valueOf(
-                    WeatherUtil.getAirColor(
-                        requireContext(),
-                        now.aqi
+                TextViewCompat.setCompoundDrawableTintList(
+                    mBinding.tvAirCondition, ColorStateList.valueOf(
+                        WeatherUtil.getAirColor(
+                            requireContext(),
+                            it.aqi
+                        )
                     )
                 )
-            )
-            mBinding.tvAirCondition.visibility = View.VISIBLE
-        } else {
-            mBinding.tvAirCondition.visibility = View.GONE
+                mBinding.tvAirCondition.visibility = View.VISIBLE
+            } else {
+                mBinding.tvAirCondition.visibility = View.GONE
+            }
+            airQualityBinding.airConditionView.setValue(it.aqi.toInt(), it.category)
+
+            airQualityBinding.tvTodayPm25.text = it.pm2p5
+            airQualityBinding.tvTodaySo2.text = it.so2
+            airQualityBinding.tvTodayCo.text = it.co
+            airQualityBinding.tvTodayPm10.text = it.pm10
+            airQualityBinding.tvTodayNo2.text = it.no2
+            airQualityBinding.tvTodayO3.text = it.o3
         }
-        airQualityBinding.airConditionView.setValue(now.aqi.toInt(), now.category)
 
-        airQualityBinding.tvTodayPm25.text = now.pm2p5
-        airQualityBinding.tvTodaySo2.text = now.so2
-        airQualityBinding.tvTodayCo.text = now.co
-        airQualityBinding.tvTodayPm10.text = now.pm10
-        airQualityBinding.tvTodayNo2.text = now.no2
-        airQualityBinding.tvTodayO3.text = now.o3
-
-        mBinding.tvAirCondition.setOnClickListener { WebViewActivity.startActivity(context!!,"空气质量",fxLink) }
+        mBinding.tvAirCondition.setOnClickListener { WebViewActivity.startActivity(context!!,"空气质量",fxLink ?: DEFAULT_URL) }
     }
 
     /**
      * 预警
      */
-    private fun showWarnings(warnings: List<Warning>) {
+    private fun showWarnings(warnings: List<Warning>?) {
         mBinding.alarmFlipper.visibility = View.VISIBLE
         mBinding.alarmFlipper.setInAnimation(requireContext(), R.anim.bottom_in)
         mBinding.alarmFlipper.setOutAnimation(requireContext(), R.anim.top_out)
         mBinding.alarmFlipper.flipInterval = 4000
-        for (warning in warnings) {
-            val level: String = warning.level
-            val tip = warning.typeName + level + "预警"
-            val warningRes = WeatherUtil.getWarningRes(requireContext(), level)
-            val textView: TextView = layoutInflater.inflate(R.layout.item_warning, null) as TextView
-            textView.background = warningRes.first
-            textView.text = tip
-            textView.setOnClickListener {
-                AlarmDialog(requireContext()).apply {
-                    setContent(tip, warning.text)
-                    show()
+        warnings?.let {
+            for (warning in it) {
+                val level: String = warning.level
+                val tip = warning.typeName + level + "预警"
+                val warningRes = WeatherUtil.getWarningRes(requireContext(), level)
+                val textView: TextView = layoutInflater.inflate(R.layout.item_warning, null) as TextView
+                textView.background = warningRes.first
+                textView.text = tip
+                textView.setOnClickListener {
+                    AlarmDialog(requireContext()).apply {
+                        setContent(tip, warning.text)
+                        show()
+                    }
                 }
+                textView.setTextColor(warningRes.second)
+                mBinding.alarmFlipper.addView(textView)
             }
-            textView.setTextColor(warningRes.second)
-            mBinding.alarmFlipper.addView(textView)
-        }
-        if (warnings.size > 1) {
-            mBinding.alarmFlipper.startFlipping()
+            if (it.size > 1) {
+                mBinding.alarmFlipper.startFlipping()
+            }
         }
     }
 
     /**
      * 逐小时天气
      */
-    private fun showHourly(hourlyWeatherList: List<Hourly>) {
+    private fun showHourly(hourlyWeatherList: List<Hourly>?) {
         val data: MutableList<Hourly> = ArrayList()
-        val end = if (hourlyWeatherList.size > 23) 23 else hourlyWeatherList.size - 1
-        for (i in 0..end) {
-            data.add(hourlyWeatherList[i])
-            val condCode = data[i].icon
-            var time = data[i].fxTime
-            time = time.substring(time.length - 11, time.length - 9)
-            val hourNow = time.toInt()
-            if (hourNow in 6..19) {
-                data[i].icon = condCode + "d"
-            } else {
-                data[i].icon = condCode + "n"
+        hourlyWeatherList?.let {
+            val end = if (it.size > 23) 23 else it.size - 1
+
+            for (i in 0..end) {
+                data.add(it[i])
+                val condCode = data[i].icon
+                var time = data[i].fxTime
+                time = time.substring(time.length - 11, time.length - 9)
+                val hourNow = time.toInt()
+                if (hourNow in 6..19) {
+                    data[i].icon = condCode + "d"
+                } else {
+                    data[i].icon = condCode + "n"
+                }
             }
-        }
-        var minTmp = data[0].temp.toInt()
-        var maxTmp = minTmp
-        for (i in data.indices) {
-            val tmp = data[i].temp.toInt()
-            minTmp = tmp.coerceAtMost(minTmp)
-            maxTmp = tmp.coerceAtLeast(maxTmp)
-        }
-        // 设置当天的最高最低温度
-        forecastHourlyBinding.hourly.setHighestTemp(maxTmp)
-        forecastHourlyBinding.hourly.setLowestTemp(minTmp)
-        if (maxTmp == minTmp) {
-            forecastHourlyBinding.hourly.setLowestTemp(minTmp - 1)
-        }
-        forecastHourlyBinding.hourly.initData(data)
 
-        val tempRange = if (Constant.APP_SETTING_UNIT == TempUnit.HUA.tag) {
-            WeatherUtil.getF(minTmp.toString()).toString() + " ~ " +
-                    WeatherUtil.getF(maxTmp.toString()) + "°F"
-        } else {
-            "$minTmp ~ $maxTmp°C"
-        }
-        forecastHourlyBinding.tvLineTmpRange.text = tempRange
+            var minTmp = data[0].temp.toInt()
+            var maxTmp = minTmp
+            for (i in data.indices) {
+                val tmp = data[i].temp.toInt()
+                minTmp = tmp.coerceAtMost(minTmp)
+                maxTmp = tmp.coerceAtLeast(maxTmp)
+            }
+            // 设置当天的最高最低温度
+            forecastHourlyBinding.hourly.setHighestTemp(maxTmp)
+            forecastHourlyBinding.hourly.setLowestTemp(minTmp)
+            if (maxTmp == minTmp) {
+                forecastHourlyBinding.hourly.setLowestTemp(minTmp - 1)
+            }
+            forecastHourlyBinding.hourly.initData(data)
 
+            val tempRange = if (Constant.APP_SETTING_UNIT == TempUnit.HUA.tag) {
+                WeatherUtil.getF(minTmp.toString()).toString() + " ~ " +
+                        WeatherUtil.getF(maxTmp.toString()) + "°F"
+            } else {
+                "$minTmp ~ $maxTmp°C"
+            }
+            forecastHourlyBinding.tvLineTmpRange.text = tempRange
+        }
     }
 
     /**
      * 显示生活指数
      */
-    private fun showIndicator(lifeIndicator: LifeIndicator) {
-        val daily = lifeIndicator.daily
-        lifeIndicatorBinding.tvIndicatorSport.text = daily[0].category
-        lifeIndicatorBinding.tvIndicatorWear.text = daily[2].category
-        lifeIndicatorBinding.tvIndicatorUv.text = daily[3].category
-        lifeIndicatorBinding.tvIndicatorCold.text = daily[4].category
-        lifeIndicatorBinding.tvIndicatorCar.text = daily[1].category
-        lifeIndicatorBinding.tvIndicatorDrying.text = daily[5].category
+    private fun showIndicator(lifeIndicator: LifeIndicator?) {
+        val daily = lifeIndicator?.daily
+        daily?.let {
+            logD(TAG,"生活指数数据：$it")
+            lifeIndicatorBinding.tvIndicatorSport.text = it[0].category
+            logD(TAG,"生活指数数据0：${it[0].category}")
+            lifeIndicatorBinding.tvIndicatorWear.text = it[2].category
+            lifeIndicatorBinding.tvIndicatorUv.text = it[3].category
+            lifeIndicatorBinding.tvIndicatorCold.text = it[4].category
+            lifeIndicatorBinding.tvIndicatorCar.text = it[1].category
+            lifeIndicatorBinding.tvIndicatorDrying.text = it[5].category
 
-        //点击弹窗
-        lifeIndicatorBinding.llSport.setOnClickListener { initLifeIndexDialog(daily[0]) }
-        lifeIndicatorBinding.llWear.setOnClickListener { initLifeIndexDialog(daily[2]) }
-        lifeIndicatorBinding.llUv.setOnClickListener { initLifeIndexDialog(daily[3]) }
-        lifeIndicatorBinding.llCold.setOnClickListener { initLifeIndexDialog(daily[4]) }
-        lifeIndicatorBinding.llCar.setOnClickListener { initLifeIndexDialog(daily[1]) }
-        lifeIndicatorBinding.llDrying.setOnClickListener { initLifeIndexDialog(daily[5]) }
+            //点击弹窗
+            lifeIndicatorBinding.llSport.setOnClickListener { initLifeIndexDialog(daily[0]) }
+            lifeIndicatorBinding.llWear.setOnClickListener { initLifeIndexDialog(daily[2]) }
+            lifeIndicatorBinding.llUv.setOnClickListener { initLifeIndexDialog(daily[3]) }
+            lifeIndicatorBinding.llCold.setOnClickListener { initLifeIndexDialog(daily[4]) }
+            lifeIndicatorBinding.llCar.setOnClickListener { initLifeIndexDialog(daily[1]) }
+            lifeIndicatorBinding.llDrying.setOnClickListener { initLifeIndexDialog(daily[5]) }
+        }
     }
 
     override fun onDestroyView() {

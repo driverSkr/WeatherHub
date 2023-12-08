@@ -26,7 +26,7 @@ class TestViewModel: ViewModel() {
         viewModelScope.launch(Dispatchers.Default) {
             val result = NetworkRepository.getInstance().searchCity(keywords,"exact")
             result.let {
-                searchResult.postValue(it.location)
+                searchResult.postValue(it?.location)
             }
         }
     }

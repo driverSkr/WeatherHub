@@ -22,7 +22,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
  * @Time: 2023/11/29 11:47
  * @Description: 天气预报 3天$
  */
-class Forecast3dAdapter(val context: Context, private val data: List<Daily>):
+class Forecast3dAdapter(val context: Context, private val data: List<Daily>?):
     RecyclerView.Adapter<Forecast3dAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(
@@ -31,47 +31,49 @@ class Forecast3dAdapter(val context: Context, private val data: List<Daily>):
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = data[position]
-        //华氏度和摄氏度之间的切换
-        if (Constant.APP_SETTING_UNIT == TempUnit.HUA.tag) {
-            val minHua = WeatherUtil.getF(item.tempMin)
-            val maxHua = WeatherUtil.getF(item.tempMax)
-            holder.binding.tvTemp.text = "${minHua}~${maxHua}°F"
-        } else {
-            holder.binding.tvTemp.text = "${item.tempMin}~${item.tempMax}°C"
-        }
+        val item = data?.get(position)
+        item?.let {
+            //华氏度和摄氏度之间的切换
+            if (Constant.APP_SETTING_UNIT == TempUnit.HUA.tag) {
+                val minHua = WeatherUtil.getF(it.tempMin)
+                val maxHua = WeatherUtil.getF(it.tempMax)
+                holder.binding.tvTemp.text = "${minHua}~${maxHua}°F"
+            } else {
+                holder.binding.tvTemp.text = "${it.tempMin}~${it.tempMax}°C"
+            }
 
-        //天气描述
-        var desc = item.textDay
-        if (item.textDay != item.textNight) {
-            desc += "转" + item.textNight
-        }
-        holder.binding.tvDesc.text = desc
+            //天气描述
+            var desc = it.textDay
+            if (it.textDay != it.textNight) {
+                desc += "转" + it.textNight
+            }
+            holder.binding.tvDesc.text = desc
 
-        //匹配文字和图片
-        when (position) {
-            0 -> {
-                holder.binding.tvWeek.text = context.getString(R.string.today)
-                if (IconUtils.isDay()) {
-                    holder.binding.iv3fDay.setImageResourceName(item.iconDay)
-                } else {
-                    holder.binding.iv3fDay.setImageResourceName(item.iconNight)
+            //匹配文字和图片
+            when (position) {
+                0 -> {
+                    holder.binding.tvWeek.text = context.getString(R.string.today)
+                    if (IconUtils.isDay()) {
+                        holder.binding.iv3fDay.setImageResourceName(it.iconDay)
+                    } else {
+                        holder.binding.iv3fDay.setImageResourceName(it.iconNight)
+                    }
+                }
+                1 -> {
+                    holder.binding.tvWeek.text = context.getString(R.string.tomorrow)
+                    holder.binding.iv3fDay.setImageResourceName(it.iconDay)
+                }
+                else -> {
+                    holder.binding.tvWeek.text = context.getString(R.string.after_t)
+                    holder.binding.iv3fDay.setImageResourceName(it.iconDay)
                 }
             }
-            1 -> {
-                holder.binding.tvWeek.text = context.getString(R.string.tomorrow)
-                holder.binding.iv3fDay.setImageResourceName(item.iconDay)
-            }
-            else -> {
-                holder.binding.tvWeek.text = context.getString(R.string.after_t)
-                holder.binding.iv3fDay.setImageResourceName(item.iconDay)
-            }
-        }
 
-        holder.itemView.setOnClickListener { showDailyDetailDialog(item) }
+            holder.itemView.setOnClickListener { showDailyDetailDialog(item) }
+        }
     }
 
-    override fun getItemCount(): Int = 3
+    override fun getItemCount(): Int = data?.let { 3 } ?: 0
 
     class ViewHolder(val binding: ItemForecastBinding) : RecyclerView.ViewHolder(binding.root)
 
