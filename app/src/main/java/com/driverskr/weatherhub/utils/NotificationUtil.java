@@ -43,7 +43,7 @@ public class NotificationUtil {
     public static Notification createNotification(Context context, int notifyId) {
         NotificationCompat.Builder builder = notificationMap.get(notifyId);
         if (builder == null) {
-            builder = initBaseBuilder(context, "","", R.mipmap.ic_launcher_round);
+            builder = initBaseBuilder(context, "","", R.mipmap.ic_launcher);
             // 点击事件
             Intent intent = new Intent(context, SplashActivity.class);
             //FLAG_IMMUTABLE：指定 PendingIntent 是不可变的。
@@ -118,11 +118,6 @@ public class NotificationUtil {
 
     /**
      * 创建进度通知栏
-     *
-     * @param context
-     * @param title
-     * @param content
-     * @param icon
      */
     @SuppressLint("ObsoleteSdkInt")
     public static void createProgressNotification(Context context, String title, String content, int icon, int notifyId) {
@@ -130,8 +125,7 @@ public class NotificationUtil {
         builder.setOngoing(true);
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
             Intent intent = new Intent();
-//            PendingIntent contentIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_MUTABLE);
-            PendingIntent contentIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            PendingIntent contentIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
             builder.setContentIntent(contentIntent);
         }
 
