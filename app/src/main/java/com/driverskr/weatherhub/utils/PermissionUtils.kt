@@ -18,7 +18,7 @@ class PermissionUtils(private val activity: AppCompatActivity) {
     private lateinit var permissionCallback: (Boolean) -> Unit
 
     /**
-     * 请求权限-立即launch
+     * 批量请求权限-立即launch
      */
     fun requestPermissions(permissions: Array<String>, callback: (Boolean) -> Unit) {
         permissionCallback = callback
@@ -36,7 +36,7 @@ class PermissionUtils(private val activity: AppCompatActivity) {
     }
 
     /**
-     * 请求权限-不立即launch
+     * 批量请求权限-不立即launch
      */
     fun requestPermissionsNotLaunch(callback: (Boolean) -> Unit): ActivityResultLauncher<Array<String>> {
         permissionCallback = callback

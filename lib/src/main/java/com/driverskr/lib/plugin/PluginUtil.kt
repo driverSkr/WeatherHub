@@ -1,5 +1,6 @@
 package com.driverskr.lib.plugin
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
 import android.content.res.AssetManager
@@ -11,8 +12,9 @@ import java.lang.reflect.Method
 
 object PluginUtil {
 
-    var mResourceWrapper: ResourceWrapper? = null
+    private var mResourceWrapper: ResourceWrapper? = null
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     fun getPluginRes(context: Context, resName: String): Drawable? {
         return try {
             val pluginPath = SpUtil.getInstance(context).pluginPath
@@ -25,7 +27,7 @@ object PluginUtil {
         }
     }
 
-    fun loadResource(context: Context, skinPath: String): ResourceWrapper {
+    private fun loadResource(context: Context, skinPath: String): ResourceWrapper {
         if (mResourceWrapper != null) {
             return mResourceWrapper!!
         } else {

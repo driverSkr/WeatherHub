@@ -1,14 +1,17 @@
 package com.driverskr.lib.utils
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Matrix
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import com.driverskr.lib.R
+import kotlin.math.roundToInt
 
 object WeatherUtil {
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     fun getWarningRes(context: Context, level: String): Pair<Drawable, Int> {
         val result: Pair<Drawable, Int>
         val res = context.resources
@@ -51,7 +54,7 @@ object WeatherUtil {
     fun getF(value: String): Long {
         return try {
             var i = value.toInt().toLong()
-            i = Math.round(i * 1.8 + 32)
+            i = (i * 1.8 + 32).roundToInt().toLong()
             i
         } catch (e: Exception) {
             0

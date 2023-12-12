@@ -1,5 +1,6 @@
 package com.driverskr.lib.utils
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.util.Log
@@ -25,17 +26,17 @@ object IconUtils {
         return getIcon(context, weatherCode, "n")
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     fun getIcon(context: Context, weatherCode: String, postFix: String): Drawable? {
-        val isPlugin = SpUtil.getInstance(context).getThemeFlag() == 1
+        val isPlugin = SpUtil.getInstance(context).themeFlag == 1
         val code = parseCode(weatherCode, postFix)
         val resName = "icon_$code"
-        if (isPlugin) {
+        return if (isPlugin) {
             val pluginRes = PluginUtil.getPluginRes(context, resName)
-            return pluginRes
-                ?: context.resources.getDrawable(R.drawable.icon_100d)
+            pluginRes ?: context.resources.getDrawable(R.drawable.icon_100d)
         } else {
             val resId = getDrawableRes(context, resName, R.drawable.icon_100d)
-            return context.resources.getDrawable(resId)
+            context.resources.getDrawable(resId)
         }
     }
 
@@ -49,7 +50,7 @@ object IconUtils {
     }
 
     /**
-     * 获取白天深色天气图标
+     * 获取夜间深色天气图标
      */
     @JvmStatic
     fun getNightIconDark(context: Context, weather: String): Int {
@@ -95,7 +96,7 @@ object IconUtils {
     /**
      * 获取白天背景
      */
-    fun getDayBg(context: Context, code: Int): Int {
+    private fun getDayBg(context: Context, code: Int): Int {
         var newCode = convert(code)
         if (newCode > 10) {
             newCode /= 10
@@ -106,7 +107,7 @@ object IconUtils {
     /**
      * 获取晚上背景
      */
-    fun getNightBg(context: Context, code: Int): Int {
+    private fun getNightBg(context: Context, code: Int): Int {
         var newCode = convert(code)
         if (newCode > 10) {
             newCode /= 10
@@ -114,11 +115,11 @@ object IconUtils {
         return getDrawableRes(context, "bg_" + newCode + "_n", R.drawable.bg_0_n)
     }
 
-    fun getDrawableRes(context: Context, weather: String, def: Int): Int {
+    private fun getDrawableRes(context: Context, weather: String, def: Int): Int {
         return getRes(context, "drawable", weather, def)
     }
 
-    fun getRes(context: Context, type: String?, weather: String, def: Int): Int {
+    private fun getRes(context: Context, type: String?, weather: String, def: Int): Int {
         return try {
             var id = context.resources.getIdentifier(weather, type, context.packageName)
             if (id == 0) {
